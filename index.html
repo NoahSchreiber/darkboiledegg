@@ -19,8 +19,34 @@
 
       gtag('config', 'G-RJMNZ6M9NZ');
     </script>
+
+    <script>
+      function enableMusicOnFirstClick() {
+        var player = document.getElementById('bg-music');
+        if (!player) {
+          return;
+        }
+
+        var url = new URL(player.src);
+        url.searchParams.set('mute', '0');
+        player.src = url.toString();
+      }
+
+      window.addEventListener('pointerdown', enableMusicOnFirstClick, { once: true });
+    </script>
   </head>
   <body>
     <img src="images/evil_egg.png" alt="egg" />
+    <iframe
+      id="bg-music"
+      width="0"
+      height="0"
+      src="https://www.youtube.com/embed/C7EGMBS6nXI?autoplay=1&mute=1&loop=1&playlist=C7EGMBS6nXI&controls=0&modestbranding=1&rel=0"
+      title="Background music"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      referrerpolicy="strict-origin-when-cross-origin"
+      style="position: absolute; width: 0; height: 0; border: 0; opacity: 0; pointer-events: none;"
+    ></iframe>
   </body>
 </html>
