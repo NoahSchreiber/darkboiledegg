@@ -45,6 +45,28 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
       var bgPlayer;
+      var isPlayerReady = false;
+      var pendingEnableSound = false;
+
+      function tryEnableSound() {
+        var gate = document.getElementById('audio-gate');
+
+        if (!isPlayerReady || !bgPlayer) {
+          pendingEnableSound = true;
+          if (gate) {
+            gate.textContent = 'Loading audio... tap again';
+          }
+          return;
+        }
+
+        bgPlayer.unMute();
+        bgPlayer.setVolume(100);
+        bgPlayer.playVideo();
+
+        if (gate) {
+          gate.style.display = 'none';
+        }
+      }
 
       function onYouTubeIframeAPIReady() {
         bgPlayer = new YT.Player('bg-player', {
@@ -62,33 +84,22 @@
           },
           events: {
             onReady: function (event) {
+              isPlayerReady = true;
               event.target.mute();
               event.target.playVideo();
+
+              if (pendingEnableSound) {
+                tryEnableSound();
+              }
             }
           }
         });
       }
 
-      function enableSound() {
-        if (bgPlayer && typeof bgPlayer.unMute === 'function') {
-          bgPlayer.unMute();
-          bgPlayer.setVolume(100);
-          bgPlayer.playVideo();
-        }
-
-        var gate = document.getElementById('audio-gate');
-        if (gate) {
-          gate.style.display = 'none';
-        }
-      }
-
       window.addEventListener('DOMContentLoaded', function () {
         var gate = document.getElementById('audio-gate');
-        gate.addEventListener('click', enableSound);
-        gate.addEventListener('touchstart', function (event) {
-          event.preventDefault();
-          enableSound();
-        }, { passive: false });
+        gate.addEventListener('pointerup', tryEnableSound);
+        gate.addEventListener('click', tryEnableSound);
       });
     </script>
   </head>
