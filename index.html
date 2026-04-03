@@ -8,6 +8,28 @@
       * { margin: 0; padding: 0; }
       body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #000; }
       img { max-width: 100%; max-height: 100vh; }
+      #audio-gate {
+        position: fixed;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        border: 1px solid #fff;
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+        padding: 10px 14px;
+        font-size: 14px;
+        line-height: 1;
+        cursor: pointer;
+        z-index: 10;
+      }
+      #bg-player {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+      }
     </style>
 
     <!-- Google tag (gtag.js) -->
@@ -20,33 +42,59 @@
       gtag('config', 'G-RJMNZ6M9NZ');
     </script>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-      function enableMusicOnFirstClick() {
-        var player = document.getElementById('bg-music');
-        if (!player) {
-          return;
-        }
+      var bgPlayer;
 
-        var url = new URL(player.src);
-        url.searchParams.set('mute', '0');
-        player.src = url.toString();
+      function onYouTubeIframeAPIReady() {
+        bgPlayer = new YT.Player('bg-player', {
+          videoId: 'C7EGMBS6nXI',
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+            disablekb: 1,
+            fs: 0,
+            loop: 1,
+            modestbranding: 1,
+            playsinline: 1,
+            playlist: 'C7EGMBS6nXI',
+            rel: 0
+          },
+          events: {
+            onReady: function (event) {
+              event.target.mute();
+              event.target.playVideo();
+            }
+          }
+        });
       }
 
-      window.addEventListener('pointerdown', enableMusicOnFirstClick, { once: true });
+      function enableSound() {
+        if (bgPlayer && typeof bgPlayer.unMute === 'function') {
+          bgPlayer.unMute();
+          bgPlayer.setVolume(100);
+          bgPlayer.playVideo();
+        }
+
+        var gate = document.getElementById('audio-gate');
+        if (gate) {
+          gate.style.display = 'none';
+        }
+      }
+
+      window.addEventListener('DOMContentLoaded', function () {
+        var gate = document.getElementById('audio-gate');
+        gate.addEventListener('click', enableSound);
+        gate.addEventListener('touchstart', function (event) {
+          event.preventDefault();
+          enableSound();
+        }, { passive: false });
+      });
     </script>
   </head>
   <body>
     <img src="images/evil_egg.png" alt="egg" />
-    <iframe
-      id="bg-music"
-      width="0"
-      height="0"
-      src="https://www.youtube.com/embed/C7EGMBS6nXI?autoplay=1&mute=1&loop=1&playlist=C7EGMBS6nXI&controls=0&modestbranding=1&rel=0"
-      title="Background music"
-      frameborder="0"
-      allow="autoplay; encrypted-media"
-      referrerpolicy="strict-origin-when-cross-origin"
-      style="position: absolute; width: 0; height: 0; border: 0; opacity: 0; pointer-events: none;"
-    ></iframe>
+    <button id="audio-gate" type="button">Tap to enable sound</button>
+    <div id="bg-player" aria-hidden="true"></div>
   </body>
 </html>
