@@ -30,6 +30,24 @@
         opacity: 0;
         pointer-events: none;
       }
+      nav {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        z-index: 10;
+      }
+      nav a {
+        color: #fff;
+        font-family: monospace;
+        font-size: 13px;
+        text-decoration: none;
+        opacity: 0.7;
+        transition: opacity 0.15s;
+      }
+      nav a:hover { opacity: 1; text-decoration: underline; }
     </style>
 
     <!-- Google tag (gtag.js) -->
@@ -104,6 +122,10 @@
     </script>
   </head>
   <body>
+    <nav>
+      <a href="index.html">return to egg</a>
+      <a href="triangle.html">see the triangle</a>
+    </nav>
     <img src="images/evil_egg.png" alt="egg" />
     <button id="audio-gate" type="button">Tap to enable sound</button>
     <div id="bg-player" aria-hidden="true"></div>

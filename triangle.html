@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Triangle</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #000; overflow: hidden; }
+      canvas { display: block; width: 100vw; height: 100vh; }
+      nav {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        z-index: 10;
+      }
+      nav a {
+        color: #fff;
+        font-family: monospace;
+        font-size: 13px;
+        text-decoration: none;
+        opacity: 0.7;
+        transition: opacity 0.15s;
+      }
+      nav a:hover { opacity: 1; text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">return to egg</a>
+      <a href="triangle.html">see the triangle</a>
+    </nav>
+    <canvas id="c"></canvas>
+    <script>
+      const canvas = document.getElementById('c');
+      const gl = canvas.getContext('webgl');
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const vert = `
+        attribute vec2 a_pos;
+        attribute vec3 a_color;
+        uniform float u_angle;
+        varying vec3 v_color;
+        void main() {
+          float c = cos(u_angle);
+          float s = sin(u_angle);
+          vec2 p = vec2(c * a_pos.x - s * a_pos.y, s * a_pos.x + c * a_pos.y);
+          gl_Position = vec4(p * 0.7, 0.0, 1.0);
+          v_color = a_color;
+        }
+      `;
+
+      const frag = `
+        precision mediump float;
+        varying vec3 v_color;
+        void main() {
+          gl_FragColor = vec4(v_color, 1.0);
+        }
+      `;
+
+      function compile(type, src) {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        return s;
+      }
+
+      const prog = gl.createProgram();
+      gl.attachShader(prog, compile(gl.VERTEX_SHADER, vert));
+      gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, frag));
+      gl.linkProgram(prog);
+      gl.useProgram(prog);
+
+      // interleaved: x, y, r, g, b
+      const verts = new Float32Array([
+         0.0,  1.0,  1.0, 0.2, 0.3,
+        -0.866, -0.5, 0.2, 0.6, 1.0,
+         0.866, -0.5, 0.4, 1.0, 0.4
+      ]);
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
+
+      const stride = 5 * 4;
+      const aPos = gl.getAttribLocation(prog, 'a_pos');
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, stride, 0);
+
+      const aColor = gl.getAttribLocation(prog, 'a_color');
+      gl.enableVertexAttribArray(aColor);
+      gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, stride, 2 * 4);
+
+      const uAngle = gl.getUniformLocation(prog, 'u_angle');
+
+      let start = null;
+      function frame(ts) {
+        if (!start) start = ts;
+        const angle = ((ts - start) / 1000) * 0.8;
+        gl.clearColor(0, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.uniform1f(uAngle, angle);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    </script>
+  </body>
+</html>
