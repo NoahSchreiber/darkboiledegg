@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geschichte Pruefungszusammenfassung - Zweiter Weltkrieg</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1208;
+    --accent: #8b1a1a;
+    --accent2: #2a4a6b;
+    --gold: #c9a84c;
+    --light: #ece7db;
+    --muted: #6b5e4a;
+    --tag-bg: #8b1a1a15;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.75;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  nav {
+    margin-bottom: 26px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    color: var(--ink);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  nav a:hover { border-bottom-color: var(--ink); }
+
+  .masthead {
+    border-top: 4px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 24px 0 20px;
+    margin-bottom: 48px;
+    text-align: center;
+  }
+
+  .masthead .kicker {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    font-family: 'Source Serif 4', serif;
+    margin-bottom: 10px;
+  }
+
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .masthead .subtitle {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .meta-bar {
+    margin-top: 18px;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .meta-bar span {
+    font-size: 12px;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 4px 12px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .dates-strip {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 16px 24px;
+    margin-bottom: 48px;
+    border-radius: 2px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .dates-strip .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .dates-strip .date-item strong {
+    font-size: 18px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .dates-strip .date-item p {
+    font-size: 13px;
+    line-height: 1.4;
+    opacity: 0.85;
+  }
+
+  section {
+    margin-bottom: 52px;
+    border-left: 3px solid var(--accent);
+    padding-left: 20px;
+  }
+
+  section.blue {
+    border-left-color: var(--accent2);
+  }
+
+  .section-number {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  section.blue .section-number { color: var(--accent2); }
+
+  section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .sub {
+    margin-top: 20px;
+    margin-bottom: 16px;
+  }
+
+  .sub h3 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    border-bottom: 1px solid #c9b99a;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+  }
+
+  p { margin-bottom: 12px; }
+
+  ul, ol {
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  li { margin-bottom: 5px; }
+  li::marker { color: var(--accent); }
+
+  .box {
+    background: var(--light);
+    border: 1px solid #c9b99a;
+    border-left: 3px solid var(--gold);
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 15px;
+  }
+
+  .box.red { border-left-color: var(--accent); }
+  .box.blue { border-left-color: var(--accent2); }
+
+  .box strong {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+
+  .timeline {
+    margin: 16px 0;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items: start;
+  }
+
+  .timeline-item .year {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    text-align: right;
+    padding-top: 1px;
+  }
+
+  .timeline-item .event {
+    font-size: 15px;
+    border-left: 2px solid #c9b99a;
+    padding-left: 12px;
+  }
+
+  .glossar {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 24px 28px;
+    margin: 48px 0;
+    border-radius: 2px;
+  }
+
+  .glossar h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .glossar-item {
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #ffffff20;
+  }
+
+  .glossar-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .glossar-item dt {
+    font-weight: 600;
+    color: var(--gold);
+    font-size: 15px;
+    margin-bottom: 3px;
+  }
+
+  .glossar-item dd {
+    font-size: 14px;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  .divider {
+    text-align: center;
+    color: var(--muted);
+    font-size: 20px;
+    letter-spacing: 0.5em;
+    margin: 40px 0;
+    opacity: 0.4;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 24px 16px 60px; }
+    .dates-strip { flex-direction: column; gap: 16px; }
+    .timeline-item { grid-template-columns: 50px 1fr; }
+  }
+
+  @media print {
+    body { background: white; max-width: 100%; }
+    .masthead h1 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Return to Egg</a>
+  <a href="eggening.html">See the Eggening</a>
+  <a href="geschichte-zusammenfassung.html">Geschichte Zusammenfassung</a>
+</nav>
+
+<div class="masthead">
+  <div class="kicker">KSL - Geschichte K5</div>
+  <h1>Die Zwischenkriegszeit<br>und der Zweite Weltkrieg</h1>
+  <div class="subtitle">Pruefungszusammenfassung - Donnerstag, 16. April 2026 - Zimmer B402</div>
+  <div class="meta-bar">
+    <span>16.2 - 16.3 - 17.1 - 17.2 - 18.1 - 18.2 - 19</span>
+    <span>GE-Buch S. 102, 106-110, 121-122, 166-170</span>
+  </div>
+</div>
+
+<div class="dates-strip">
+  <div class="date-item">
+    <span class="label">Ewige Daten</span>
+    <strong>1938</strong>
+    <p>Muenchner Abkommen:<br>Sudetenland an Deutschland</p>
+  </div>
+  <div class="date-item">
+    <strong>1939</strong>
+    <p>Hitler-Stalin-Pakt (Aug.)<br>Ausbruch des Zweiten Weltkriegs (Sept.)</p>
+  </div>
+  <div class="date-item">
+    <strong>1941</strong>
+    <p>Unternehmen Barbarossa (Juni)<br>Kriegseintritt der USA (Dez.)</p>
+  </div>
+</div>
+
+<section>
+  <div class="section-number">16.2</div>
+  <h2>Die Wirtschaftspolitik der NSDAP</h2>
+  <div class="sub">
+    <h3>Massnahmen</h3>
+    <ul>
+      <li><strong>Erhoehte Ruestungsausgaben</strong> - staatliche Auftraege an Chemie- und Ruestungsindustrie</li>
+      <li><strong>Autobahnbau</strong> - Grossbauprojekt zur Beschaeftigung und effizienten Logistik</li>
+      <li><strong>Allgemeine Wehrpflicht</strong> - Maenner aus dem Arbeitsmarkt in die Wehrmacht</li>
+      <li><strong>Deutsche Arbeitsfront (DAF)</strong> - ersetzte Gewerkschaften; Organisation "Kraft durch Freude" (KdF) mit Urlaubsangeboten zur Arbeiterintegration</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Folgen fuer die Wirtschaft</h3>
+    <ul>
+      <li>Stark sinkende Arbeitslosenquote</li>
+      <li>Erhoehte industrielle Produktion</li>
+      <li>Effizientere Logistik durch Autobahnnetz</li>
+      <li>Hoehere Inflation durch staatliches Gelddrucken</li>
+      <li>Wirtschaftliche Abhaengigkeit vom Ruestungssektor</li>
+    </ul>
+  </div>
+
+  <div class="box red">
+    <strong>Hitlers Ziel (Hossbach-Aufzeichnungen, 1937)</strong>
+    Deutschland in vier Jahren kriegsbereit zu machen (I. Armee), die Wirtschaft auf Kriegswirtschaft umzustellen (II.) und danach den Lebensraum im Osten zu erweitern ("Germanisierung").
+  </div>
+</section>
+
+<div class="divider">. . .</div>
+
+<section>
+  <div class="section-number">16.3 - GE-Buch S. 102, 121-122</div>
+  <h2>Widerstand gegen das Regime</h2>
+
+  <div class="sub">
+    <h3>Formen des Widerstands</h3>
+    <p>Widerstand umfasste jede Haltung gegen das NS-Regime, von <strong>unangepasstem Verhalten</strong> bis hin zu <strong>aktivem Widerstand</strong> (Versuch, das Regime zu stuerzen).</p>
+  </div>
+
+  <div class="sub">
+    <h3>Weisse Rose</h3>
+    <p>Studentische Widerstandsgruppe an der Universitaet Muenchen. Vom Sommer 1942 bis Februar 1943 verbreiteten sie Flugblaetter gegen die nationalsozialistische Willkuer.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Operation Walkuere</h3>
+    <p>Am <strong>20. Juli 1944</strong> zuendete Stauffenberg eine Bombe in Hitlers Hauptquartier. Hitler ueberlebte leicht verletzt; der Umsturzversuch scheiterte.</p>
+  </div>
+
+  <div class="box red">
+    <strong>Warum scheiterte der Widerstand?</strong>
+    Fehlende Massenunterstuetzung, wirksame Ueberwachung, Isolation der Gruppen und massive Repression.
+  </div>
+</section>
+
+<div class="divider">. . .</div>
+
+<section class="blue">
+  <div class="section-number">17.1</div>
+  <h2>Hitlers zweigleisige Aussenpolitik</h2>
+
+  <div class="sub">
+    <h3>Nach aussen</h3>
+    <p>Friedlicher Auftritt mit Pakten und Versprechen, um keine fruehe militaerische Reaktion zu provozieren.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Nach innen</h3>
+    <p>Klare Kriegs- und Expansionsziele mit Fokus auf Lebensraum im Osten.</p>
+  </div>
+
+  <div class="box blue">
+    <strong>Muenchner Abkommen - 1938</strong>
+    Das Sudetenland wurde Deutschland ueberlassen. Die Westmaechte hofften auf Frieden (Appeasement), doch 1939 folgte die Besetzung der Resttschechei.
+  </div>
+</section>
+
+<div class="divider">. . .</div>
+
+<section class="blue">
+  <div class="section-number">17.2</div>
+  <h2>Buendnisse der Grossmaechte</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <span class="year">1936</span>
+      <div class="event">Achse Berlin-Rom und Antikomintern-Vertrag</div>
+    </div>
+    <div class="timeline-item">
+      <span class="year">1939</span>
+      <div class="event">Stahlpakt und Hitler-Stalin-Pakt</div>
+    </div>
+    <div class="timeline-item">
+      <span class="year">1940</span>
+      <div class="event">Dreimaechtepakt Deutschland-Italien-Japan</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">. . .</div>
+
+<section>
+  <div class="section-number">18.1 / 18.2</div>
+  <h2>Kriegsverlauf und Weltkrieg</h2>
+
+  <div class="sub">
+    <h3>1939: Fall Weiss</h3>
+    <p>Am <strong>1. September 1939</strong> griff Deutschland Polen an. Grossbritannien und Frankreich erklaerten daraufhin den Krieg.</p>
+  </div>
+
+  <div class="sub">
+    <h3>1941: Barbarossa und USA</h3>
+    <p>Der Angriff auf die UdSSR am 22. Juni 1941 weitete den Krieg weiter aus. Nach Pearl Harbor traten die USA in den Krieg ein.</p>
+  </div>
+
+  <div class="box red">
+    <strong>Stalingrad (1942/43) = Kriegswende</strong>
+    Die Niederlage der 6. Armee markierte den strategischen Wendepunkt des Krieges gegen Deutschland.
+  </div>
+</section>
+
+<div class="divider">. . .</div>
+
+<section>
+  <div class="section-number">19</div>
+  <h2>Die Schweiz im Zweiten Weltkrieg</h2>
+
+  <div class="sub">
+    <h3>Reduit-Strategie</h3>
+    <p>Rueckzug in den Alpenraum zur Abschreckung und Verteidigung im Invasionsfall.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Wirtschaft und Goldhandel</h3>
+    <p>Die Schweiz handelte mit dem Deutschen Reich (u.a. Kohle gegen Industrieprodukte). Der Goldhandel fuehrte spaeter zu schweren moralischen und politischen Kontroversen.</p>
+  </div>
+
+  <div class="box blue">
+    <strong>Bergier-Bericht</strong>
+    Der Bericht zeigte die wirtschaftliche Verstrickung der Schweiz im Zweiten Weltkrieg und loeste eine breite Debatte aus.
+  </div>
+</section>
+
+<div class="glossar">
+  <h2>Glossar - Pruefungsbegriffe</h2>
+  <dl>
+    <div class="glossar-item">
+      <dt>Appeasement-Politik</dt>
+      <dd>Nachgeben gegenueber Aggressoren zur Kriegsvermeidung; scheiterte spaetestens 1939.</dd>
+    </div>
+    <div class="glossar-item">
+      <dt>Blitzkrieg</dt>
+      <dd>Schnelle, konzentrierte Angriffe mit Panzern und Luftwaffe zur Ueberrumpelung des Gegners.</dd>
+    </div>
+    <div class="glossar-item">
+      <dt>Unternehmen Barbarossa</dt>
+      <dd>Deutscher Angriff auf die UdSSR ab dem 22. Juni 1941.</dd>
+    </div>
+  </dl>
+</div>
+
+<div style="text-align:center; color:var(--muted); font-size:12px; margin-top:40px; letter-spacing:0.1em;">
+  Geschichte K5 - Pruefung 16. April 2026 - Zimmer B402
+</div>
+
+</body>
+</html>
