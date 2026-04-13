@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Geschichte Pruefungszusammenfassung - Zweiter Weltkrieg</title>
+<title>Geschichte Prüfungszusammenfassung – Zweiter Weltkrieg</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -30,25 +30,7 @@
     padding: 48px 32px 80px;
   }
 
-  nav {
-    margin-bottom: 26px;
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  nav a {
-    color: var(--ink);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-  }
-
-  nav a:hover { border-bottom-color: var(--ink); }
-
+  /* HEADER */
   .masthead {
     border-top: 4px solid var(--ink);
     border-bottom: 1px solid var(--ink);
@@ -56,7 +38,6 @@
     margin-bottom: 48px;
     text-align: center;
   }
-
   .masthead .kicker {
     font-size: 11px;
     letter-spacing: 0.25em;
@@ -66,7 +47,6 @@
     font-family: 'Source Serif 4', serif;
     margin-bottom: 10px;
   }
-
   .masthead h1 {
     font-family: 'Playfair Display', serif;
     font-size: clamp(28px, 5vw, 52px);
@@ -75,7 +55,6 @@
     letter-spacing: -0.02em;
     color: var(--ink);
   }
-
   .masthead .subtitle {
     margin-top: 10px;
     font-size: 14px;
@@ -83,7 +62,6 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
-
   .meta-bar {
     margin-top: 18px;
     display: flex;
@@ -91,7 +69,6 @@
     justify-content: center;
     flex-wrap: wrap;
   }
-
   .meta-bar span {
     font-size: 12px;
     background: var(--ink);
@@ -101,6 +78,7 @@
     letter-spacing: 0.05em;
   }
 
+  /* DATES STRIP */
   .dates-strip {
     background: var(--ink);
     color: var(--bg);
@@ -112,7 +90,6 @@
     align-items: flex-start;
     flex-wrap: wrap;
   }
-
   .dates-strip .label {
     font-size: 10px;
     text-transform: uppercase;
@@ -121,24 +98,22 @@
     margin-bottom: 6px;
     display: block;
   }
-
   .dates-strip .date-item strong {
     font-size: 18px;
     font-family: 'Playfair Display', serif;
   }
-
   .dates-strip .date-item p {
     font-size: 13px;
     line-height: 1.4;
     opacity: 0.85;
   }
 
+  /* SECTION */
   section {
     margin-bottom: 52px;
     border-left: 3px solid var(--accent);
     padding-left: 20px;
   }
-
   section.blue {
     border-left-color: var(--accent2);
   }
@@ -151,7 +126,6 @@
     font-weight: 600;
     margin-bottom: 4px;
   }
-
   section.blue .section-number { color: var(--accent2); }
 
   section h2 {
@@ -163,11 +137,11 @@
     margin-bottom: 16px;
   }
 
+  /* SUBSECTIONS */
   .sub {
     margin-top: 20px;
     margin-bottom: 16px;
   }
-
   .sub h3 {
     font-size: 13px;
     font-weight: 600;
@@ -181,14 +155,15 @@
 
   p { margin-bottom: 12px; }
 
+  /* LISTS */
   ul, ol {
     padding-left: 20px;
     margin-bottom: 12px;
   }
-
   li { margin-bottom: 5px; }
   li::marker { color: var(--accent); }
 
+  /* HIGHLIGHT BOXES */
   .box {
     background: var(--light);
     border: 1px solid #c9b99a;
@@ -197,7 +172,6 @@
     margin: 16px 0;
     font-size: 15px;
   }
-
   .box.red { border-left-color: var(--accent); }
   .box.blue { border-left-color: var(--accent2); }
 
@@ -210,10 +184,23 @@
     margin-bottom: 5px;
   }
 
+  /* TERM */
+  .term {
+    display: inline-block;
+    background: var(--tag-bg);
+    border: 1px solid #8b1a1a40;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin: 2px 2px;
+  }
+
+  /* TIMELINE */
   .timeline {
     margin: 16px 0;
   }
-
   .timeline-item {
     display: grid;
     grid-template-columns: 60px 1fr;
@@ -221,7 +208,6 @@
     margin-bottom: 10px;
     align-items: start;
   }
-
   .timeline-item .year {
     font-family: 'Playfair Display', serif;
     font-size: 15px;
@@ -230,13 +216,13 @@
     text-align: right;
     padding-top: 1px;
   }
-
   .timeline-item .event {
     font-size: 15px;
     border-left: 2px solid #c9b99a;
     padding-left: 12px;
   }
 
+  /* GLOSSAR */
   .glossar {
     background: var(--ink);
     color: var(--bg);
@@ -244,38 +230,31 @@
     margin: 48px 0;
     border-radius: 2px;
   }
-
   .glossar h2 {
     font-family: 'Playfair Display', serif;
     font-size: 20px;
     color: var(--gold);
     margin-bottom: 16px;
   }
-
   .glossar-item {
     margin-bottom: 14px;
     padding-bottom: 14px;
     border-bottom: 1px solid #ffffff20;
   }
-
-  .glossar-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-  }
-
+  .glossar-item:last-child { border-bottom: none; margin-bottom: 0; }
   .glossar-item dt {
     font-weight: 600;
     color: var(--gold);
     font-size: 15px;
     margin-bottom: 3px;
   }
-
   .glossar-item dd {
     font-size: 14px;
     opacity: 0.9;
     line-height: 1.6;
   }
 
+  /* DIVIDER */
   .divider {
     text-align: center;
     color: var(--muted);
@@ -290,7 +269,6 @@
     .dates-strip { flex-direction: column; gap: 16px; }
     .timeline-item { grid-template-columns: 50px 1fr; }
   }
-
   @media print {
     body { background: white; max-width: 100%; }
     .masthead h1 { font-size: 36px; }
@@ -299,27 +277,22 @@
 </head>
 <body>
 
-<nav>
-  <a href="index.html">Return to Egg</a>
-  <a href="eggening.html">See the Eggening</a>
-  <a href="geschichte-zusammenfassung.html">Geschichte Zusammenfassung</a>
-</nav>
-
 <div class="masthead">
-  <div class="kicker">KSL - Geschichte K5</div>
+  <div class="kicker">KSL · Geschichte K5</div>
   <h1>Die Zwischenkriegszeit<br>und der Zweite Weltkrieg</h1>
-  <div class="subtitle">Pruefungszusammenfassung - Donnerstag, 16. April 2026 - Zimmer B402</div>
+  <div class="subtitle">Prüfungszusammenfassung · Donnerstag, 16. April 2026 · Zimmer B402</div>
   <div class="meta-bar">
-    <span>16.2 - 16.3 - 17.1 - 17.2 - 18.1 - 18.2 - 19</span>
-    <span>GE-Buch S. 102, 106-110, 121-122, 166-170</span>
+    <span>16.2 · 16.3 · 17.1 · 17.2 · 18.1 · 18.2 · 19</span>
+    <span>GE-Buch S. 102, 106–110, 121–122, 166–170</span>
   </div>
 </div>
 
+<!-- EWIGE DATEN -->
 <div class="dates-strip">
   <div class="date-item">
     <span class="label">Ewige Daten</span>
     <strong>1938</strong>
-    <p>Muenchner Abkommen:<br>Sudetenland an Deutschland</p>
+    <p>Münchner Abkommen:<br>Sudetenland an Deutschland</p>
   </div>
   <div class="date-item">
     <strong>1939</strong>
@@ -331,171 +304,368 @@
   </div>
 </div>
 
+<!-- 16.2 -->
 <section>
   <div class="section-number">16.2</div>
   <h2>Die Wirtschaftspolitik der NSDAP</h2>
+
   <div class="sub">
     <h3>Massnahmen</h3>
     <ul>
-      <li><strong>Erhoehte Ruestungsausgaben</strong> - staatliche Auftraege an Chemie- und Ruestungsindustrie</li>
-      <li><strong>Autobahnbau</strong> - Grossbauprojekt zur Beschaeftigung und effizienten Logistik</li>
-      <li><strong>Allgemeine Wehrpflicht</strong> - Maenner aus dem Arbeitsmarkt in die Wehrmacht</li>
-      <li><strong>Deutsche Arbeitsfront (DAF)</strong> - ersetzte Gewerkschaften; Organisation "Kraft durch Freude" (KdF) mit Urlaubsangeboten zur Arbeiterintegration</li>
+      <li><strong>Erhöhte Rüstungsausgaben</strong> – staatliche Aufträge an Chemie- und Rüstungsindustrie</li>
+      <li><strong>Autobahnbau</strong> – Grossbauproject zur Beschäftigung und effizienten Logistik</li>
+      <li><strong>Allgemeine Wehrpflicht</strong> – Männer aus dem Arbeitsmarkt in die Wehrmacht</li>
+      <li><strong>Deutsche Arbeitsfront (DAF)</strong> – ersetzte Gewerkschaften; Organisation «Kraft durch Freude» (KdF) mit Urlaubsangeboten zur Arbeiterintegration</li>
     </ul>
   </div>
 
   <div class="sub">
-    <h3>Folgen fuer die Wirtschaft</h3>
+    <h3>Folgen für die Wirtschaft</h3>
     <ul>
       <li>Stark sinkende Arbeitslosenquote</li>
-      <li>Erhoehte industrielle Produktion</li>
+      <li>Erhöhte industrielle Produktion</li>
       <li>Effizientere Logistik durch Autobahnnetz</li>
-      <li>Hoehere Inflation durch staatliches Gelddrucken</li>
-      <li>Wirtschaftliche Abhaengigkeit vom Ruestungssektor</li>
+      <li>Höhere Inflation durch staatliches Gelddrucken</li>
+      <li>Wirtschaftliche Abhängigkeit vom Rüstungssektor</li>
     </ul>
   </div>
 
   <div class="box red">
     <strong>Hitlers Ziel (Hossbach-Aufzeichnungen, 1937)</strong>
-    Deutschland in vier Jahren kriegsbereit zu machen (I. Armee), die Wirtschaft auf Kriegswirtschaft umzustellen (II.) und danach den Lebensraum im Osten zu erweitern ("Germanisierung").
+    Deutschland in vier Jahren kriegsbereit zu machen (I. Armee), die Wirtschaft auf Kriegswirtschaft umzustellen (II.) und danach den Lebensraum im Osten zu erweitern («Germanisierung»).
+  </div>
+
+  <div class="sub">
+    <h3>Zerstörung der Gewerkschaften</h3>
+    <p>Am 1. Mai 1933 (Tag der nationalen Arbeit) wurden die Gewerkschaftshäuser besetzt und das Gewerkschaftsvermögen beschlagnahmt. Die DAF übernahm die «soziale» Funktion der Arbeiterbewegung und diente primär der Kontrolle und Propaganda.</p>
   </div>
 </section>
 
-<div class="divider">. . .</div>
+<div class="divider">· · ·</div>
 
+<!-- 16.3 -->
 <section>
-  <div class="section-number">16.3 - GE-Buch S. 102, 121-122</div>
+  <div class="section-number">16.3 · GE-Buch S. 102, 121–122</div>
   <h2>Widerstand gegen das Regime</h2>
 
   <div class="sub">
     <h3>Formen des Widerstands</h3>
-    <p>Widerstand umfasste jede Haltung gegen das NS-Regime, von <strong>unangepasstem Verhalten</strong> bis hin zu <strong>aktivem Widerstand</strong> (Versuch, das Regime zu stuerzen).</p>
+    <p>Widerstand umfasste jede Haltung gegen das NS-Regime, von <strong>unangepasstem Verhalten</strong> (z. B. kein Hitlergruss) bis hin zu <strong>aktivem Widerstand</strong> (Versuch, das Regime zu stürzen). Die Unterscheidung: passiv–aktiv, staatsbezogen–privat, generell–partiell.</p>
   </div>
 
   <div class="sub">
-    <h3>Weisse Rose</h3>
-    <p>Studentische Widerstandsgruppe an der Universitaet Muenchen. Vom Sommer 1942 bis Februar 1943 verbreiteten sie Flugblaetter gegen die nationalsozialistische Willkuer.</p>
+    <h3>Weisse Rose (Hans &amp; Sophie Scholl)</h3>
+    <p>Studentische Widerstandsgruppe an der Universität München. Vom Sommer 1942 bis Februar 1943 verbreiteten sie Flugblätter mit leidenschaftlichen Appellen gegen die nationalsozialistische Willkür. Ziel: Studenten aufzuklären und für «ein anderes Deutschland» zu werben. Nach dem Abwurf eines Flugblatts verhaftet, zum Tode verurteilt und am gleichen Tag hingerichtet (1943).</p>
+    <div class="box">
+      <strong>Einschätzung</strong>
+      Passiver → aktiver Widerstand; jugendlich-studentische Basis; moralisch-religiöse Begründung. Scheiterte, hatte aber grosse symbolische Nachwirkung.
+    </div>
   </div>
 
   <div class="sub">
-    <h3>Operation Walkuere</h3>
-    <p>Am <strong>20. Juli 1944</strong> zuendete Stauffenberg eine Bombe in Hitlers Hauptquartier. Hitler ueberlebte leicht verletzt; der Umsturzversuch scheiterte.</p>
+    <h3>Operation Walküre – Claus Schenk Graf von Stauffenberg</h3>
+    <p>Stauffenberg wandte sich nach den deutschen Massenverbrechen und der desaströsen Kriegsführung dem militärischen Widerstand zu. Er koordinierte Attentatspläne mit Carl-Friedrich Goerdeler und Ludwig Beck. Am <strong>20. Juli 1944</strong> zündete er eine Bombe in Hitlers Hauptquartier. Hitler überlebte leicht verletzt; der Umsturzversuch scheiterte. Die Verschwörer wurden hingerichtet.</p>
+    <ul>
+      <li>Ziel: Hitler ermorden, Friedensverhandlungen mit den Westmächten, Wiederherstellung der Rechtsordnung von vor 1933 (ohne parlamentarische Demokratie)</li>
+      <li>Verbindung zu Kreisauer Kreis (ziviler Widerstand)</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Weitere Widerstandsgruppen</h3>
+    <ul>
+      <li><strong>Arbeiterbewegung</strong> – Kommunisten, Sozialdemokraten, Gewerkschaftler leisteten frühen aktiven Widerstand mit Flugblättern und Sabotage; bis 1938 von der Gestapo zerschlagen</li>
+      <li><strong>Kirchen</strong> – Widerspruch gegen Regime wenn kirchliche Unabhängigkeit bedroht; «Bekennende Kirche» vs. «Deutsche Christen»; Zeugen Jehovas verweigerten jede Anpassung</li>
+      <li><strong>Jugendgruppen</strong> – «Edelweisspiraten» im Rheinland setzten nonkonformistische Zeichen</li>
+      <li><strong>Nationalkomitee Freies Deutschland</strong> – militärischer Widerstand aus sowjetischer Kriegsgefangenschaft heraus</li>
+    </ul>
   </div>
 
   <div class="box red">
-    <strong>Warum scheiterte der Widerstand?</strong>
-    Fehlende Massenunterstuetzung, wirksame Ueberwachung, Isolation der Gruppen und massive Repression.
+    <strong>Warum scheiterte der Widerstand generell?</strong>
+    Fehlende Massenunterstützung; wirksame Überwachung durch Gestapo und SD; Isolation der Gruppen; Repression mit Todesstrafe; anfängliche Zustimmung zum Regime in der Bevölkerung.
   </div>
 </section>
 
-<div class="divider">. . .</div>
+<div class="divider">· · ·</div>
 
+<!-- 17.1 -->
 <section class="blue">
   <div class="section-number">17.1</div>
-  <h2>Hitlers zweigleisige Aussenpolitik</h2>
+  <h2>Hitlers «zweigleisige» Aussenpolitik</h2>
+
+  <p>Hitler verfolgte nach aussen und innen entgegengesetzte Botschaften:</p>
 
   <div class="sub">
-    <h3>Nach aussen</h3>
-    <p>Friedlicher Auftritt mit Pakten und Versprechen, um keine fruehe militaerische Reaktion zu provozieren.</p>
+    <h3>Nach aussen (öffentlich)</h3>
+    <p>Rationaler, friedlicher Auftritt: Unterzeichnen von Friedenspakten, Beteuerungen des Friedenswillens, Appelle an Selbstbestimmungsrecht der Völker. Ziel: keine vorzeitige militärische Reaktion der Westmächte provozieren.</p>
   </div>
 
   <div class="sub">
-    <h3>Nach innen</h3>
-    <p>Klare Kriegs- und Expansionsziele mit Fokus auf Lebensraum im Osten.</p>
+    <h3>Nach innen (geheim)</h3>
+    <p>Klare Kriegs- und Expansionsbotschaft (Germanisierung, Lebensraumerweiterung im Osten). Begründung: <strong>Sozialdarwinismus</strong> – Kampf der Völker um Lebensraum sei ein Naturgesetz.</p>
   </div>
 
   <div class="box blue">
-    <strong>Muenchner Abkommen - 1938</strong>
-    Das Sudetenland wurde Deutschland ueberlassen. Die Westmaechte hofften auf Frieden (Appeasement), doch 1939 folgte die Besetzung der Resttschechei.
+    <strong>Münchner Abkommen – 1938 (Ewiges Datum!)</strong>
+    Hitler nutzte die Sudetendeutschen als Vorwand, um Druck auf die Tschechoslowakei auszuüben. Das Abkommen (Sept. 1938) mit GB, Frankreich, Italien und Deutschland legte die Abtretung des Sudetenlandes fest – ohne Beteiligung der Tschechoslowakei. Die Westmächte glaubten, dies sei die letzte Forderung Hitlers (→ Appeasement-Politik). Im März 1939 besetzte Deutschland die «Resttschechei» und zerstörte das Vertrauen in diese Politik.
+  </div>
+
+  <div class="sub">
+    <h3>Appeasement-Politik (Glossarbegriff!)</h3>
+    <p>Britisch-französische Strategie des Nachgebens gegenüber Hitlers Forderungen, um Krieg zu verhindern. Basierte auf der Annahme, Hitler sei durch Konzessionen zu befriedigen. Scheiterte 1939 definitiv, als Deutschland trotz des Abkommens die Tschechoslowakei zerschlug.</p>
+    <ul>
+      <li><strong>Dafür:</strong> England hatte tschechische Hilferufe ignoriert – guter Wille</li>
+      <li><strong>Dagegen:</strong> Naiv statt kurzsichtig; ermöglichte Hitlers Aufrüstung</li>
+    </ul>
   </div>
 </section>
 
-<div class="divider">. . .</div>
+<div class="divider">· · ·</div>
 
+<!-- 17.2 -->
 <section class="blue">
-  <div class="section-number">17.2</div>
-  <h2>Buendnisse der Grossmaechte</h2>
+  <div class="section-number">17.2 · GE-Buch S. 106–107</div>
+  <h2>Bündnisse der europäischen Grossmächte</h2>
 
   <div class="timeline">
     <div class="timeline-item">
+      <span class="year">1933</span>
+      <div class="event">Japan und Deutschland treten aus dem Völkerbund aus</div>
+    </div>
+    <div class="timeline-item">
+      <span class="year">1934</span>
+      <div class="event">Aufnahme der UdSSR in den Völkerbund</div>
+    </div>
+    <div class="timeline-item">
       <span class="year">1936</span>
-      <div class="event">Achse Berlin-Rom und Antikomintern-Vertrag</div>
+      <div class="event"><strong>Achse Berlin–Rom</strong> (antikommunistisch) zwischen Deutschland und Italien; <strong>Antikomintern-Vertrag</strong> zwischen Deutschland und Japan</div>
+    </div>
+    <div class="timeline-item">
+      <span class="year">1937</span>
+      <div class="event">Italien tritt aus dem Völkerbund aus (wegen Abessinienkrieg/Sanktionen); beitritt zum Antikomintern-Pakt</div>
     </div>
     <div class="timeline-item">
       <span class="year">1939</span>
-      <div class="event">Stahlpakt und Hitler-Stalin-Pakt</div>
+      <div class="event"><strong>Stahlpakt</strong> zwischen Deutschland und Italien; <strong>Hitler-Stalin-Pakt</strong> (Nichtangriffspakt) mit geheimem Zusatzprotokoll zur Aufteilung Osteuropas</div>
     </div>
     <div class="timeline-item">
       <span class="year">1940</span>
-      <div class="event">Dreimaechtepakt Deutschland-Italien-Japan</div>
+      <div class="event"><strong>Dreimächtepakt</strong> zwischen Deutschland, Italien und Japan</div>
     </div>
-  </div>
-</section>
-
-<div class="divider">. . .</div>
-
-<section>
-  <div class="section-number">18.1 / 18.2</div>
-  <h2>Kriegsverlauf und Weltkrieg</h2>
-
-  <div class="sub">
-    <h3>1939: Fall Weiss</h3>
-    <p>Am <strong>1. September 1939</strong> griff Deutschland Polen an. Grossbritannien und Frankreich erklaerten daraufhin den Krieg.</p>
-  </div>
-
-  <div class="sub">
-    <h3>1941: Barbarossa und USA</h3>
-    <p>Der Angriff auf die UdSSR am 22. Juni 1941 weitete den Krieg weiter aus. Nach Pearl Harbor traten die USA in den Krieg ein.</p>
-  </div>
-
-  <div class="box red">
-    <strong>Stalingrad (1942/43) = Kriegswende</strong>
-    Die Niederlage der 6. Armee markierte den strategischen Wendepunkt des Krieges gegen Deutschland.
-  </div>
-</section>
-
-<div class="divider">. . .</div>
-
-<section>
-  <div class="section-number">19</div>
-  <h2>Die Schweiz im Zweiten Weltkrieg</h2>
-
-  <div class="sub">
-    <h3>Reduit-Strategie</h3>
-    <p>Rueckzug in den Alpenraum zur Abschreckung und Verteidigung im Invasionsfall.</p>
-  </div>
-
-  <div class="sub">
-    <h3>Wirtschaft und Goldhandel</h3>
-    <p>Die Schweiz handelte mit dem Deutschen Reich (u.a. Kohle gegen Industrieprodukte). Der Goldhandel fuehrte spaeter zu schweren moralischen und politischen Kontroversen.</p>
   </div>
 
   <div class="box blue">
-    <strong>Bergier-Bericht</strong>
-    Der Bericht zeigte die wirtschaftliche Verstrickung der Schweiz im Zweiten Weltkrieg und loeste eine breite Debatte aus.
+    <strong>Hitler-Stalin-Pakt / Molotow-Ribbentrop-Pakt (1939)</strong>
+    Nichtangriffspakt zwischen den ideologischen Todfeinden Deutschland und UdSSR. Geheimes Zusatzprotokoll: Aufteilung Osteuropas in Interessensphären (Finnland, Baltikum, Bessarabien → UdSSR; Polen aufgeteilt). Stalin wollte Zeit gewinnen und eine Einkreisung verhindern. Hitler hatte den Rücken für den Angriff auf Polen frei.
+  </div>
+
+  <div class="sub">
+    <h3>Japan: Tenno Hirohito und das Militär</h3>
+    <p>Ab 1931 Besetzung der Mandschurei. Japan nutzte den Angriff auf China als Selbstverteidigung nach aussen, wollte aber nach innen zur Grossmacht aufsteigen. Ressourcen und Expansion nach Westen als Ziel. Im Zweiten Weltkrieg kontrollierten wirtschaftlich wertvolle Teile Chinas japanische Kräfte.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Italien: Mussolini in Äthiopien</h3>
+    <p>Mussolini war überzeugt, der Völkerbund würde seinen Willen nicht bremsen. Äthiopien war das einzige unkolonisierte afrikanische Land neben Liberia. Im Oktober 1935 Überfall auf Äthiopien – als «Selbstverteidigung» deklariert. Einsatz von Giftgas gegen die Bevölkerung.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Spanischer Bürgerkrieg (ab 1936)</h3>
+    <p>Franco-Putsch gegen die Zweite Spanische Republik (Republikaner/Sozialisten). Deutschland und Italien schickten Truppen und Kriegsgerät und nutzten den Krieg als <strong>Testboden</strong> für neue Waffen (z.B. Luftwaffe, Guernica). Westliche Demokratien blieben bei Nichtintervention; UdSSR schickte Kriegsmaterial; 10'000 internationale Legionäre auf Seiten der Republik.</p>
   </div>
 </section>
 
+<div class="divider">· · ·</div>
+
+<!-- 18.1 -->
+<section>
+  <div class="section-number">18.1 · GE-Buch S. 106–110</div>
+  <h2>Kriegsbeginn: Der «Fall Weiss»</h2>
+
+  <div class="sub">
+    <h3>Ausbruch des Zweiten Weltkriegs – 1939 (Ewiges Datum!)</h3>
+    <p>Am <strong>1. September 1939</strong> marschierte die Deutsche Wehrmacht in Polen ein. Grossbritannien und Frankreich erklärten Deutschland am 3. September den Krieg. Polen war bis November vollständig besetzt; Ostpolen wurde gemäss Hitler-Stalin-Pakt von sowjetischen Truppen eingenommen. Das war der Beginn des <strong>Vernichtungskriegs</strong> im Osten.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Blitzkrieg (Glossarbegriff!)</h3>
+    <p>Strategie schneller, konzentrierter Angriffe mit Panzern und Luftwaffe, um den Gegner zu überrumpeln, bevor eine organisierte Verteidigung möglich ist. Ziel: schnelle Entscheidung, bevor Ressourcennachteile spürbar werden.</p>
+    <ul>
+      <li><strong>Dänemark</strong> (9. April 1940): in weniger als 6 Stunden</li>
+      <li><strong>Norwegen</strong> (9. April – 10. Juni 1940): ~2 Monate; wichtig wegen Eisenerz. Taktik der verbrannten Erde → wirtschaftliche Schwächung Norwegens</li>
+      <li><strong>Benelux &amp; Frankreich</strong> (10. Mai – 25. Juni 1940): «Fall Gelb» / Sichelschnittplan – Panzerdurchbruch durch die Ardennen, Einkreisung der Alliierten in Belgien; Bombardierung Rotterdams; Evakuierung Dünkirchen (370'000 Soldaten)</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <strong>Sichelschnittplan</strong>
+    Panzerverbände durchbrachen das als unpassierbar geltende Ardennen-Gebirge → Alliierte Truppen wurden in Belgien eingekreist und vom Rest abgeschnitten.
+  </div>
+</section>
+
+<div class="divider">· · ·</div>
+
+<!-- 18.2 -->
+<section>
+  <div class="section-number">18.2 · GE-Buch S. 107–110</div>
+  <h2>Der Krieg wird ein Weltkrieg: Angriff auf die UdSSR und Eintritt der USA</h2>
+
+  <div class="sub">
+    <h3>Unternehmen Barbarossa – 1941 (Ewiges Datum!)</h3>
+    <p>Am <strong>22. Juni 1941</strong> startete Hitler den Angriff auf die UdSSR – einen «Präventivschlag» gegen den erklärten Hauptfeind. Drei Heeresgruppen (Nord, Mitte, Süd):</p>
+    <ul>
+      <li>Nord → Belagerung Leningrad/St. Petersburg</li>
+      <li>Mitte → Minsk (eingenommen) → Moskau (gescheitert, u.a. durch Partisanen/Sabotage)</li>
+      <li>Süd → Kiew (eingenommen) → Stalingrad (Niederlage)</li>
+    </ul>
+    <p>In den besetzten Gebieten begann beispielloser Terror gegen die Zivilbevölkerung (Millionen Opfer).</p>
+  </div>
+
+  <div class="box red">
+    <strong>Stalingrad (Aug. 1942 – Feb. 1943) = Kriegswende</strong>
+    Die 6. Deutsche Armee wurde eingekesselt (Mangel an Munition und Treibstoff). Von 230'000 Soldaten kehrten nur ~5'000 lebend zurück. General Paulus kapitulierte. Die Zivilbevölkerung durfte nicht evakuiert werden. Stalingrad wurde zum Symbol der Kriegswende – ab diesem Punkt konnte Deutschland den Krieg nicht mehr gewinnen.
+  </div>
+
+  <div class="sub">
+    <h3>Eintritt der USA – 1941 (Ewiges Datum!)</h3>
+    <p>Schrittweise Abkehr von der Neutralität:</p>
+    <ul>
+      <li>1937: Roosevelt: USA nicht mehr «wirklich neutral»</li>
+      <li>1938: Münchner Abkommen → Aufrüstung beginnt</li>
+      <li>1941: <strong>Lend-Lease-Act</strong> → USA liefern Kriegsmaterial an Grossbritannien und UdSSR</li>
+      <li>Öl- und Schrottembargo gegen Japan als Reaktion auf die Besetzung Chinas</li>
+      <li><strong>7. Dezember 1941</strong>: Japanischer Angriff auf Pearl Harbor (Hawaii) → USA erklären Japan den Krieg; Deutschland erklärt USA den Krieg (11. Dez.)</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Atlantik-Charta &amp; Anti-Hitler-Koalition</h3>
+    <p>Roosevelt und Churchill verständigten sich im August 1941 auf Prinzipien einer globalen Nachkriegsordnung: Verzicht auf Gebietsgewinn, Selbstbestimmungsrecht der Völker, Freiheit von Furcht und Not. <strong>Kein formeller Vertrag</strong>, aber Grundlage für die spätere UNO.</p>
+    <p>26 Staaten schlossen wenige Monate nach dem Kriegseintritt der USA den <strong>Washington-Pakt</strong> – Keimzelle der Vereinten Nationen. Einigkeit: Deutschland muss vollständig besiegt und besetzt werden.</p>
+  </div>
+
+  <div class="box blue">
+    <strong>Warum konnte die Anti-Hitler-Koalition funktionieren?</strong>
+    Ideologische Gegensätze (Demokratien + UdSSR) wurden überwunden, weil alle dasselbe Ziel teilten: Deutschland besiegen. Die wirtschaftliche Stärke der USA war entscheidend. Fehler des Versailler Vertrags sollten nicht wiederholt werden (→ Atlantik-Charta).
+  </div>
+</section>
+
+<div class="divider">· · ·</div>
+
+<!-- 19 SCHWEIZ -->
+<section>
+  <div class="section-number">19 · GE-Buch S. 166–170</div>
+  <h2>Die Schweiz im Zweiten Weltkrieg</h2>
+
+  <div class="sub">
+    <h3>Militärische Strategie: Das Réduit</h3>
+    <p>General Henri Guisan hielt eine historische Versammlung der Offiziere am 25. Juli 1940 auf dem Rütli ab und verkündete den Entschluss zum <strong>Réduit-Konzept</strong>: Rückzug in die Alpen und Widerstand bis zum letzten.</p>
+    <ul>
+      <li><strong>Rückzug ins Alpengebiet</strong>: Armee hätte sich in schwer zugängliche Regionen der Alpen zurückgezogen</li>
+      <li><strong>Festungsverteidigung</strong>: Massive Befestigungen sollten einen Angriff teuer machen</li>
+      <li><strong>Abschreckung</strong>: Gegner sollte erkennen, dass Besetzung des Mittellands teuer, des Alpenraums fast unmöglich wäre</li>
+    </ul>
+    <div class="box">
+      <strong>Kritik am Réduit</strong>
+      Wirtschaftliche Nachteile: Das Mittelland mit Industrie, Infrastruktur und Bevölkerung wäre preisgegeben worden. Politisch-moralische Kritik: Rückzugspolitik statt aktiver Verteidigung. Historiker debattieren, ob es militärisch notwendig oder eher eine psychologische Abschreckungsstrategie war.
+    </div>
+    <p>Das Réduit war weniger ein reiner Kampfplan als eine <strong>Kombination aus militärischer Strategie und politischem Signal</strong>: Die Schweiz wollte zeigen, dass sie sich nicht kampflos ergeben würde.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Wirtschaftspolitik &amp; Aussenhandel</h3>
+    <p>Die Schweiz war als rohstoffarmes, exportorientiertes Land auf Handel angewiesen. Ziele der Aussenhandelspolitik: Überleben der Bevölkerung, Erhalt der Arbeitsplätze, Wahrung der Verteidigungsfähigkeit.</p>
+    <ul>
+      <li>Das Deutsche Reich war vor und während des Krieges der wichtigste Handelspartner</li>
+      <li>Mit der deutschen Kohleblockade 1940 wurde die Schweiz erpressbar</li>
+      <li>Am 9. August 1940 schloss die Schweiz ein <strong>Wirtschaftsabkommen</strong> mit Deutschland: Kohle und Rohstoffe gegen Industrieprodukte</li>
+      <li>50 % der Optik, 60 % der Waffenindustrie arbeiteten für das Deutsche Reich</li>
+      <li>70 % der Elektromotorenindustrie, Lebensmittel (Käse, Fleisch)</li>
+    </ul>
+    <p>Gleichzeitig unterhielt die Schweiz eingeschränkten Handel mit Grossbritannien und den Alliierten.</p>
+  </div>
+
+  <div class="sub">
+    <h3>«Überlebensstrategie» – Anpassung an Deutschland</h3>
+    <p>Die Schweiz wollte Deutschland gefallen, ohne die eigene Souveränität aufzugeben. Die Neutralität wurde nicht vollständig eingehalten (heimliche Planung der Verteidigung gegen Deutschland). Die Anpassung betraf auch Schweizer Firmen in Deutschland: Viele beschäftigten Zwangsarbeiterinnen und passten sich NS-Anforderungen an (z.B. Entlassung jüdischer Mitarbeitender).</p>
+  </div>
+
+  <div class="sub">
+    <h3>Das Deutsche Reich erhält Kredit («Clearing»)</h3>
+    <p>Da kein freier Zahlungsverkehr möglich war, lief der Handel über ein schweizerisch-deutsches Verrechnungsabkommen. Die Schweiz gewährte Deutschland einen <strong>ständig wachsenden, zinslosen Überziehungskredit</strong>. Bei Kriegsende war das Deutsche Reich bei der Schweiz mit 1,19 Milliarden Mark verschuldet. 1952 zahlte die BRD 665 Millionen Franken.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Goldhandel</h3>
+    <p>Der Schweizer Franken war eine stark begehrte, frei konvertierbare Währung. Zwischen der Schweizerischen Nationalbank (SNB) und der Deutschen Reichsbank entwickelte sich ein <strong>schwungvoller Goldhandel</strong> (Höhepunkt 1943). Deutschland kaufte mit Gold bei Drittstaaten strategisch wichtige Güter ein.</p>
+    <div class="box red">
+      <strong>«Opfergold» – moralisches Problem</strong>
+      Ein Teil des deutschen Goldes stammte aus Konfiskationen von Privatpersonen und als «Totengold» von ermordeten Opfern des Nationalsozialismus (0,6 Mio. Franken). Die SNB-Leiter wussten oder ahnten, dass belgisches und niederländisches «Raubgold» darunter war, akzeptierten aber die deutschen Versicherungen. Nach Kriegsende forderten die Alliierten die Rückgabe des Raubgoldes.
+    </div>
+    <p>Im <strong>Washingtoner Abkommen von 1946</strong> verpflichtete sich die Schweiz zur Zahlung von 250 Millionen Franken in Gold und zur Identifizierung von NS-Opfervermögen in der Schweiz.</p>
+  </div>
+</section>
+
+<div class="divider">· · ·</div>
+
+<!-- BERGIER BERICHT -->
+<section class="blue">
+  <div class="section-number">19 (Fortsetzung) · Glossarbegriff!</div>
+  <h2>Der Bergier-Bericht</h2>
+
+  <p>Der <strong>Bergier-Bericht</strong> (offiziell: «Unabhängige Expertenkommission Schweiz – Zweiter Weltkrieg») war eine historische Untersuchungskommission unter dem Ökonomen Jean-François Bergier, die 1996 eingesetzt wurde und 2002 ihren Abschlussbericht vorlegte.</p>
+
+  <div class="sub">
+    <h3>Zentrale Erkenntnisse</h3>
+    <ul>
+      <li>Die Schweiz hat durch ihren Handel mit dem Deutschen Reich (Goldhandel, Wirtschaftsabkommen) den Krieg verlängert</li>
+      <li>Schweizer Firmen beschäftigten Zwangsarbeiterinnen und -arbeiter in ihren deutschen Tochtergesellschaften</li>
+      <li>Die SNB akzeptierte Raubgold, obwohl sie zumindest ahnte, woher es stammte</li>
+      <li>Die restriktive Flüchtlingspolitik (Rückweisung jüdischer Flüchtlinge an der Grenze) wird als mitverantwortlich für den Tod von Menschen bewertet</li>
+    </ul>
+  </div>
+
+  <div class="sub">
+    <h3>Widersprüche &amp; Kontroversen</h3>
+    <ul>
+      <li>Hat die Schweiz vom Krieg profitiert (Wirtschaft, Arbeitslosigkeit) oder war sie Opfer der Lage?</li>
+      <li>War Anpassung «Überlebensstrategie» oder Kollaboration?</li>
+      <li>Guisan wollte bis zum bitteren Ende verteidigen – Bundesrat hatte Vollmacht und zögerte nach dem Fall Frankreichs</li>
+    </ul>
+  </div>
+
+  <div class="box blue">
+    <strong>Zusammenfassung: Die Schweiz zwischen den Fronten</strong>
+    Die Schweiz verfolgte eine Doppelstrategie: militärische Abschreckung (Réduit) und wirtschaftliche Anpassung. Sie profitierte wirtschaftlich vom Krieg, trug aber auch zur Verlängerung des Krieges bei. Der Bergier-Bericht durchbrach das Selbstbild der Schweiz als unberührt-neutrales Land und löste eine intensive nationale Debatte aus.
+  </div>
+</section>
+
+<!-- GLOSSAR -->
 <div class="glossar">
-  <h2>Glossar - Pruefungsbegriffe</h2>
+  <h2>Glossar – Prüfungsbegriffe</h2>
   <dl>
     <div class="glossar-item">
       <dt>Appeasement-Politik</dt>
-      <dd>Nachgeben gegenueber Aggressoren zur Kriegsvermeidung; scheiterte spaetestens 1939.</dd>
+      <dd>Britisch-französische Strategie (bes. 1936–1939), Hitlers Forderungen durch Konzessionen nachzugeben, um Krieg zu verhindern. Scheiterte spätestens mit der Besetzung der Resttschechei (März 1939). Steht heute für naives Nachgeben gegenüber Aggressoren.</dd>
+    </div>
+    <div class="glossar-item">
+      <dt>Bergier-Bericht</dt>
+      <dd>Schlussbericht (2002) der Unabhängigen Expertenkommission Schweiz–Zweiter Weltkrieg. Belegt die wirtschaftliche Verstrickung der Schweiz mit dem NS-Regime (Goldhandel, Rüstungsexporte, Zwangsarbeit, Flüchtlingspolitik).</dd>
     </div>
     <div class="glossar-item">
       <dt>Blitzkrieg</dt>
-      <dd>Schnelle, konzentrierte Angriffe mit Panzern und Luftwaffe zur Ueberrumpelung des Gegners.</dd>
+      <dd>NS-Militärstrategie der schnellen, konzentrierten Angriffe mit Panzern und Luftwaffe, um den Gegner zu überrumpeln, bevor er sich organisieren kann. Erfolgreich in Polen (1939), Westeuropa (1940); scheiterte in der UdSSR.</dd>
     </div>
     <div class="glossar-item">
       <dt>Unternehmen Barbarossa</dt>
-      <dd>Deutscher Angriff auf die UdSSR ab dem 22. Juni 1941.</dd>
+      <dd>Deckname für den deutschen Angriff auf die UdSSR ab 22. Juni 1941. Grösste Militäroperation der Geschichte. Trotz anfänglicher Geländegewinne scheiterte der Feldzug vor Moskau (1941) und endgültig in Stalingrad (1942/43).</dd>
     </div>
   </dl>
 </div>
 
-<div style="text-align:center; color:var(--muted); font-size:12px; margin-top:40px; letter-spacing:0.1em;">
-  Geschichte K5 - Pruefung 16. April 2026 - Zimmer B402
+<div style="text-align:center; color:var(--muted); font-size:12px; margin-top: 40px; letter-spacing:0.1em;">
+  Geschichte K5 · KSL · Prüfung 16. April 2026 · Zimmer B402
 </div>
 
 </body>
