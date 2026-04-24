@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>what</title>
+    <style>
+      :root {
+        --text: #e9f2ff;
+        --panel: rgba(10, 16, 26, 0.82);
+        --line: rgba(151, 178, 208, 0.45);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: radial-gradient(circle at 20% 20%, #1d2c44 0%, #101824 45%, #05090f 100%);
+        color: var(--text);
+        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      }
+
+      #app {
+        width: 100%;
+        height: 100%;
+      }
+
+      #overlay {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(180deg, rgba(7, 11, 18, 0.75), rgba(7, 11, 18, 0.92));
+        backdrop-filter: blur(3px);
+        z-index: 5;
+        cursor: pointer;
+      }
+
+      #card {
+        width: min(92vw, 560px);
+        border: 1px solid var(--line);
+        background: var(--panel);
+        padding: 22px;
+        border-radius: 12px;
+        box-shadow: 0 18px 38px rgba(0, 0, 0, 0.42);
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: clamp(24px, 4vw, 38px);
+        line-height: 1;
+        letter-spacing: 0.02em;
+      }
+
+      p {
+        margin: 0;
+        opacity: 0.88;
+      }
+
+      #hud {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+        line-height: 1.4;
+        z-index: 4;
+      }
+
+      #reticle {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 14px;
+        height: 14px;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      #reticle::before,
+      #reticle::after {
+        content: "";
+        position: absolute;
+        background: rgba(220, 236, 255, 0.84);
+      }
+
+      #reticle::before {
+        left: 6px;
+        top: 0;
+        width: 2px;
+        height: 14px;
+      }
+
+      #reticle::after {
+        left: 0;
+        top: 6px;
+        width: 14px;
+        height: 2px;
+      }
+
+      a {
+        color: #b8d8ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <div id="overlay" role="button" aria-label="Start 3D view">
+      <div id="card">
+        <h1>what</h1>
+        <p>Click to capture your mouse and move around the box.</p>
+        <p>
+          Controls: <strong>W A S D</strong> move, <strong>Space</strong> up,
+          <strong>Shift</strong> down, <strong>Mouse</strong> look, <strong>Esc</strong> unlock.
+        </p>
+      </div>
+    </div>
+
+    <div id="hud">
+      <div>WASD move | Space up | Shift down</div>
+      <div><a href="index.html">Back to index</a></div>
+    </div>
+
+    <div id="reticle"></div>
+
+    <script type="module">
+      import * as THREE from "https://unpkg.com/three@0.164.1/build/three.module.js";
+      import { PointerLockControls } from "https://unpkg.com/three@0.164.1/examples/jsm/controls/PointerLockControls.js";
+
+      const app = document.getElementById("app");
+      const overlay = document.getElementById("overlay");
+
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x07101b, 0.03);
+
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.set(0, 1.8, 6);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      app.appendChild(renderer.domElement);
+
+      const controls = new PointerLockControls(camera, document.body);
+      scene.add(controls.getObject());
+
+      overlay.addEventListener("click", () => {
+        controls.lock();
+      });
+
+      controls.addEventListener("lock", () => {
+        overlay.style.display = "none";
+      });
+
+      controls.addEventListener("unlock", () => {
+        overlay.style.display = "grid";
+      });
+
+      const hemi = new THREE.HemisphereLight(0x9ec5ff, 0x101215, 0.6);
+      scene.add(hemi);
+
+      const dir = new THREE.DirectionalLight(0xffffff, 0.75);
+      dir.position.set(3, 5, 2);
+      scene.add(dir);
+
+      const grid = new THREE.GridHelper(120, 120, 0x4e6b8d, 0x24384d);
+      grid.position.y = -0.5;
+      scene.add(grid);
+
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(140, 140),
+        new THREE.MeshStandardMaterial({ color: 0x0f1621, roughness: 0.95, metalness: 0.05 })
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.position.y = -0.5;
+      scene.add(floor);
+
+      const shaderMat = new THREE.ShaderMaterial({
+        uniforms: {
+          uTime: { value: 0 },
+          uLightDir: { value: new THREE.Vector3(0.5, 0.9, 0.25).normalize() },
+        },
+        vertexShader: `
+          varying vec3 vNormal;
+          varying vec3 vWorldPos;
+
+          void main() {
+            vec4 worldPos = modelMatrix * vec4(position, 1.0);
+            vWorldPos = worldPos.xyz;
+            vNormal = normalize(mat3(modelMatrix) * normal);
+            gl_Position = projectionMatrix * viewMatrix * worldPos;
+          }
+        `,
+        fragmentShader: `
+          precision highp float;
+
+          uniform float uTime;
+          uniform vec3 uLightDir;
+          varying vec3 vNormal;
+          varying vec3 vWorldPos;
+
+          void main() {
+            vec3 n = normalize(vNormal);
+            float diffuse = max(dot(n, normalize(uLightDir)), 0.0);
+
+            float wave = sin(vWorldPos.y * 3.8 + uTime * 1.4) * 0.5 + 0.5;
+            float ring = sin(length(vWorldPos.xz) * 8.0 - uTime * 1.6) * 0.5 + 0.5;
+            vec3 baseA = vec3(0.12, 0.66, 0.92);
+            vec3 baseB = vec3(0.95, 0.34, 0.28);
+            vec3 albedo = mix(baseA, baseB, wave * 0.7 + ring * 0.3);
+
+            vec3 color = albedo * (0.2 + diffuse * 0.8);
+            gl_FragColor = vec4(color, 1.0);
+          }
+        `,
+      });
+
+      const box = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), shaderMat);
+      box.position.y = 1.1;
+      scene.add(box);
+
+      const keyState = {
+        forward: false,
+        back: false,
+        left: false,
+        right: false,
+        up: false,
+        down: false,
+      };
+
+      const onKey = (event, isDown) => {
+        switch (event.code) {
+          case "KeyW":
+            keyState.forward = isDown;
+            break;
+          case "KeyS":
+            keyState.back = isDown;
+            break;
+          case "KeyA":
+            keyState.left = isDown;
+            break;
+          case "KeyD":
+            keyState.right = isDown;
+            break;
+          case "Space":
+            keyState.up = isDown;
+            break;
+          case "ShiftLeft":
+          case "ShiftRight":
+            keyState.down = isDown;
+            break;
+          default:
+            break;
+        }
+      };
+
+      document.addEventListener("keydown", (e) => onKey(e, true));
+      document.addEventListener("keyup", (e) => onKey(e, false));
+
+      const velocity = new THREE.Vector3();
+      const moveDirection = new THREE.Vector3();
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        const delta = Math.min(clock.getDelta(), 0.06);
+        shaderMat.uniforms.uTime.value += delta;
+
+        box.rotation.x += delta * 0.35;
+        box.rotation.y += delta * 0.6;
+
+        if (controls.isLocked) {
+          const speed = 9.0;
+          moveDirection.set(0, 0, 0);
+
+          if (keyState.forward) moveDirection.z -= 1;
+          if (keyState.back) moveDirection.z += 1;
+          if (keyState.left) moveDirection.x -= 1;
+          if (keyState.right) moveDirection.x += 1;
+          if (keyState.up) moveDirection.y += 1;
+          if (keyState.down) moveDirection.y -= 1;
+
+          if (moveDirection.lengthSq() > 0) {
+            moveDirection.normalize();
+          }
+
+          const yaw = controls.getObject().rotation.y;
+          const moveX = moveDirection.x * Math.cos(yaw) - moveDirection.z * Math.sin(yaw);
+          const moveZ = moveDirection.x * Math.sin(yaw) + moveDirection.z * Math.cos(yaw);
+
+          velocity.set(moveX * speed, moveDirection.y * speed, moveZ * speed);
+          controls.getObject().position.addScaledVector(velocity, delta);
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    </script>
+  </body>
+</html>
