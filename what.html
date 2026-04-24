@@ -44,6 +44,41 @@
         color: var(--accent);
       }
 
+      .site-nav {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(8, 14, 22, 0.82);
+        backdrop-filter: blur(10px);
+        z-index: 7;
+      }
+
+      .site-nav a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 13px;
+        opacity: 0.72;
+        transition: opacity 0.15s ease;
+      }
+
+      .site-nav a:hover {
+        opacity: 1;
+        text-decoration: underline;
+      }
+
+      .site-nav a.active {
+        opacity: 1;
+        color: var(--accent);
+        text-decoration: underline;
+        pointer-events: none;
+      }
+
       button,
       input,
       textarea,
@@ -80,7 +115,7 @@
       }
 
       #overlay-card {
-        width: min(92vw, 620px);
+        width: min(92vw, 540px);
         border: 1px solid var(--line);
         background:
           linear-gradient(145deg, rgba(23, 35, 50, 0.92), rgba(8, 14, 22, 0.88));
@@ -103,11 +138,16 @@
         line-height: 1.5;
       }
 
+      #overlay-card strong {
+        color: var(--accent);
+      }
+
       #hud {
         position: fixed;
         top: 14px;
-        left: 14px;
-        min-width: min(340px, calc(100vw - 28px));
+        right: 14px;
+        min-width: min(280px, calc(100vw - 28px));
+        max-width: min(340px, calc(100vw - 28px));
         border: 1px solid var(--line);
         background: var(--panel);
         border-radius: 12px;
@@ -160,39 +200,26 @@
         height: 2px;
       }
 
-      .status-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid rgba(140, 210, 255, 0.25);
-        border-radius: 999px;
-        padding: 3px 10px;
-        margin-bottom: 10px;
-        color: var(--accent);
-        background: rgba(23, 45, 63, 0.52);
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
     </style>
   </head>
   <body>
     <div id="app-shell">
+      <nav class="site-nav" aria-label="Site">
+        <a href="index.html">egg</a>
+        <a href="eggening.html">eggening</a>
+        <a href="geschichte-zusammenfassung.html">geschichte</a>
+        <a class="active" href="what.html">what</a>
+      </nav>
+
       <div id="viewport"></div>
 
       <button id="overlay" type="button" aria-label="Start 3D view">
         <div id="overlay-card">
-          <div class="status-pill">First Person Sandbox</div>
           <h1>what</h1>
-          <p>Click to capture the mouse, look around, and move through the scene.</p>
           <p>
-            Controls: <strong>W A S D</strong> move, <strong>Space</strong> up,
-            <strong>Shift</strong> down, <strong>Mouse</strong> look,
-            <strong>Esc</strong> unlock.
-          </p>
-          <p>
-            This page is a clean base for later swapping in your own scene graph,
-            loaders, and shader materials.
+            Click to start. <strong>W A S D</strong> move,
+            <strong>Space</strong> up, <strong>Shift</strong> down,
+            <strong>Mouse</strong> look, <strong>Esc</strong> unlock.
           </p>
         </div>
       </button>
@@ -205,8 +232,6 @@
           <span id="position-readout">0.00, 1.75, 6.00</span>
           <strong>Controls</strong>
           <span>WASD move | Space up | Shift down | Esc unlock</span>
-          <strong>Link</strong>
-          <span><a href="index.html">Back to index</a></span>
         </div>
       </div>
 
