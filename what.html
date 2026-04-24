@@ -26,6 +26,10 @@
         font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       }
 
+      body {
+        user-select: none;
+      }
+
       #app {
         width: 100%;
         height: 100%;
@@ -116,7 +120,7 @@
   <body>
     <div id="app"></div>
 
-    <div id="overlay" role="button" aria-label="Start 3D view">
+    <div id="overlay" role="button" aria-label="Start 3D view" tabindex="0">
       <div id="card">
         <h1>what</h1>
         <p>Click to capture your mouse and move around the box.</p>
@@ -163,6 +167,13 @@
 
       overlay.addEventListener("click", () => {
         controls.lock();
+      });
+
+      overlay.addEventListener("keydown", (event) => {
+        if (event.code === "Enter" || event.code === "Space") {
+          event.preventDefault();
+          controls.lock();
+        }
       });
 
       controls.addEventListener("lock", () => {
@@ -245,7 +256,25 @@
         down: false,
       };
 
+      const movementCodes = new Set([
+        "KeyW",
+        "KeyA",
+        "KeyS",
+        "KeyD",
+        "Space",
+        "ShiftLeft",
+        "ShiftRight",
+      ]);
+
       const onKey = (event, isDown) => {
+        if (!controls.isLocked) {
+          return;
+        }
+
+        if (movementCodes.has(event.code)) {
+          event.preventDefault();
+        }
+
         switch (event.code) {
           case "KeyW":
             keyState.forward = isDown;
@@ -273,6 +302,15 @@
 
       document.addEventListener("keydown", (e) => onKey(e, true));
       document.addEventListener("keyup", (e) => onKey(e, false));
+
+      window.addEventListener("blur", () => {
+        keyState.forward = false;
+        keyState.back = false;
+        keyState.left = false;
+        keyState.right = false;
+        keyState.up = false;
+        keyState.down = false;
+      });
 
       const velocity = new THREE.Vector3();
       const moveDirection = new THREE.Vector3();
