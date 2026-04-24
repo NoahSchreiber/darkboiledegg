@@ -163,7 +163,8 @@
       app.appendChild(renderer.domElement);
 
       const controls = new PointerLockControls(camera, document.body);
-      scene.add(controls.getObject());
+      const player = controls.object;
+      scene.add(player);
 
       overlay.addEventListener("click", () => {
         controls.lock();
@@ -312,7 +313,6 @@
         keyState.down = false;
       });
 
-      const velocity = new THREE.Vector3();
       const moveDirection = new THREE.Vector3();
       const clock = new THREE.Clock();
 
@@ -340,12 +340,9 @@
             moveDirection.normalize();
           }
 
-          const yaw = controls.getObject().rotation.y;
-          const moveX = moveDirection.x * Math.cos(yaw) - moveDirection.z * Math.sin(yaw);
-          const moveZ = moveDirection.x * Math.sin(yaw) + moveDirection.z * Math.cos(yaw);
-
-          velocity.set(moveX * speed, moveDirection.y * speed, moveZ * speed);
-          controls.getObject().position.addScaledVector(velocity, delta);
+          controls.moveRight(moveDirection.x * speed * delta);
+          controls.moveForward(-moveDirection.z * speed * delta);
+          player.position.y += moveDirection.y * speed * delta;
         }
 
         renderer.render(scene, camera);
