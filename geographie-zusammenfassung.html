@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geographie – Zusammenfassung</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0e0c;
+  --bg2: #181714;
+  --bg3: #201e1a;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --text: #e8e2d6;
+  --muted: #8a8072;
+  --accent: #c9a96e;
+  --accent2: #e8c88a;
+  --blue: #7ba7c4;
+  --green: #7caa89;
+  --red: #c47b7b;
+  --amber: #c9a96e;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+body::before {
+  content:'';
+  position:fixed;inset:0;
+  background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,169,110,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 80% at 80% 90%, rgba(123,167,196,0.05) 0%, transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+.page { position:relative;z-index:1; }
+
+header {
+  padding: 64px 48px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.site-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.site-nav a {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--muted);
+  border: 1px solid var(--border2);
+  border-radius: 999px;
+  padding: 6px 12px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.site-nav a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.site-nav a.active {
+  color: #0f0e0c;
+  background: var(--accent);
+  border-color: var(--accent);
+  pointer-events: none;
+}
+
+.header-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-tag::before {
+  content:'';width:24px;height:1px;background:var(--accent);display:block;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+}
+
+h1 span { color: var(--accent); }
+
+.subtitle {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 460px;
+}
+
+nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 48px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: rgba(15,14,12,0.92);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+}
+
+.pill {
+  padding: 7px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.pill:hover { border-color: var(--accent); color: var(--accent); }
+.pill.active { background: var(--accent); border-color: var(--accent); color: #0f0e0c; font-weight: 500; }
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 48px 80px;
+}
+
+.section { display:none; animation: fadeIn 0.3s ease; }
+.section.active { display:block; }
+
+@keyframes fadeIn {
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:none}
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.section-title::after {
+  content:'';flex:1;height:1px;background:var(--border2);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.grid.wide { grid-template-columns: 1fr; }
+.grid.two { grid-template-columns: 1fr 1fr; }
+
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  transition: border-color 0.2s;
+}
+
+.card:hover { border-color: var(--border2); }
+
+.card-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.card p, .card li {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.card ul { padding-left: 16px; }
+.card ul li { margin-bottom: 4px; }
+.card b, .card strong { color: var(--text); font-weight: 500; }
+
+.tbl-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  text-align: left;
+  padding: 10px 14px;
+  background: var(--bg3);
+  color: var(--accent);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border2);
+  font-weight: 400;
+}
+
+td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  vertical-align: top;
+}
+
+td:first-child { color: var(--text); font-weight: 400; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+.tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 100px;
+  margin: 2px 2px 2px 0;
+  letter-spacing: 0.04em;
+}
+
+.tag-a { background: rgba(196,123,123,0.15); color: var(--red); border:1px solid rgba(196,123,123,0.25); }
+.tag-b { background: rgba(201,169,110,0.15); color: var(--amber); border:1px solid rgba(201,169,110,0.25); }
+.tag-c { background: rgba(124,170,137,0.15); color: var(--green); border:1px solid rgba(124,170,137,0.25); }
+.tag-d { background: rgba(123,167,196,0.15); color: var(--blue); border:1px solid rgba(123,167,196,0.25); }
+.tag-e { background: rgba(123,167,196,0.08); color: var(--blue); border:1px solid rgba(123,167,196,0.2); }
+
+.formula {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--accent2);
+  margin: 10px 0;
+  line-height: 1.8;
+}
+
+.band {
+  background: linear-gradient(135deg, rgba(201,169,110,0.08), rgba(123,167,196,0.06));
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.band p { font-size: 14px; color: var(--muted); }
+.band b { color: var(--text); }
+
+.region-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.region-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.region-header:hover { background: rgba(255,255,255,0.02); }
+.region-icon { font-size: 20px; }
+
+.region-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: var(--text);
+  flex: 1;
+}
+
+.region-climate {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  background: rgba(201,169,110,0.1);
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+
+.region-chevron {
+  color: var(--muted);
+  font-size: 14px;
+  transition: transform 0.25s;
+}
+
+.region-card.open .region-chevron { transform: rotate(180deg); }
+
+.region-body {
+  display: none;
+  padding: 20px;
+}
+
+.region-card.open .region-body { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.region-item-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.region-item p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.zone-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.zone-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.zone-item:last-child { border-bottom: none; }
+
+.zone-deg {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.zone-bar {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.zone-name { font-size: 14px; color: var(--text); font-weight: 400; flex: 1; }
+.zone-desc { font-size: 12.5px; color: var(--muted); }
+
+@media (max-width: 700px) {
+  header, nav, main { padding-left: 20px; padding-right: 20px; }
+  .grid.two { grid-template-columns: 1fr; }
+  .region-card.open .region-body { grid-template-columns: 1fr; }
+  h1 { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="site-nav" aria-label="Site">
+    <a href="index.html">egg</a>
+    <a href="eggening.html">eggening</a>
+    <a href="geschichte-zusammenfassung.html">geschichte</a>
+    <a class="active" href="geographie-zusammenfassung.html">geographie</a>
+    <a href="what.html">what</a>
+  </div>
+  <div class="header-tag">Gymnasium · Geographie</div>
+  <h1>Geographie<br><span>Zusammenfassung</span></h1>
+  <p class="subtitle">Klimatologie, atmosphärische Zirkulation, Monsun, Zyklone und die Grossregionen Chinas</p>
+</header>
+
+<nav>
+  <a class="pill active" onclick="show('klima',this)">Klimaklassifikation</a>
+  <a class="pill" onclick="show('zirkulation',this)">Atmosphäre & Zirkulation</a>
+  <a class="pill" onclick="show('monsun',this)">Monsun</a>
+  <a class="pill" onclick="show('zyklon',this)">Extratropische Zyklone</a>
+  <a class="pill" onclick="show('china',this)">Grossregionen China</a>
+</nav>
+
+<main>
+
+<div id="klima" class="section active">
+  <div class="section-title">Klimaklassifikation nach Köppen</div>
+
+  <div class="band">
+    <p><b>Klimaformel XY</b> — X = Klimazone (A–E), Y = Klimatyp (f/s/w/m …). Die Klassifikation basiert auf Schwellenwerten der Temperatur und des Niederschlags. Bestimmung: Temperatur des kältesten / wärmsten Monats + Niederschlagsverteilung.</p>
+    <div class="formula">XY = Klimaformel &nbsp;|&nbsp; X = Klimazone &nbsp;|&nbsp; Y = Klimatyp<br>Bsp: Cf = gemässigt (C) + ganzjährig feucht (f)</div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label">Die 5 Klimazonen</div>
+      <h3>Zonen A – E</h3>
+      <div style="margin-top:8px">
+        <div style="margin-bottom:10px"><span class="tag tag-a">A – Tropisch</span><br><span style="font-size:12.5px;color:var(--muted)">Alle Monate &gt; 18 °C · feucht oder wechselfeucht</span></div>
+        <div style="margin-bottom:10px"><span class="tag tag-b">B – Trocken</span><br><span style="font-size:12.5px;color:var(--muted)">Niederschlag &lt; Verdunstung · kein echter Wasserüberschuss</span></div>
+        <div style="margin-bottom:10px"><span class="tag tag-c">C – Gemässigt</span><br><span style="font-size:12.5px;color:var(--muted)">Kältester Monat –3 bis +18 °C</span></div>
+        <div style="margin-bottom:10px"><span class="tag tag-d">D – Kalt/Kontinental</span><br><span style="font-size:12.5px;color:var(--muted)">Kältester Monat &lt; –3 °C, wärmster &gt; 10 °C</span></div>
+        <div><span class="tag tag-e">E – Polar</span><br><span style="font-size:12.5px;color:var(--muted)">Wärmster Monat &lt; 10 °C</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">2. Buchstabe (Klimatyp)</div>
+      <h3>Niederschlagsverteilung</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Typ</th><th>Bedeutung</th></tr>
+          <tr><td>f</td><td>feucht, kein Trockenmonat</td></tr>
+          <tr><td>s</td><td>trockener Sommer (Winterregen)</td></tr>
+          <tr><td>w</td><td>trockener Winter (Sommerregen)</td></tr>
+          <tr><td>m</td><td>Monsunregen, kurze Trockenzeit</td></tr>
+          <tr><td>S / W</td><td>Steppe / Wüste (B-Klima)</td></tr>
+          <tr><td>T / F</td><td>Tundra / Frostklima (E-Klima)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Ozean vs. Kontinent</div>
+      <h3>Klimadiagramm lesen</h3>
+      <ul>
+        <li><b>Ozeanisch:</b> kleines ΔT (Sommer-Winter-Diff.), gleichmässiger Niederschlag</li>
+        <li><b>Kontinental:</b> grosses ΔT, trockene Winter, Sommer oft feucht</li>
+        <li>Klimazone: Temperatur kältester Monat ablesen → A/B/C/D/E</li>
+        <li>Klimatyp: Niederschlagsverteilung → f / s / w / m</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Savannenklima (Aw/Bw)</div>
+      <h3>Vegetation Beschreiben</h3>
+      <ul>
+        <li>Vereinzelte Bäume, grösstenteils Gras- und Buschlandschaft</li>
+        <li>Deutliche Trockenzeit (Winterhalbjahr)</li>
+        <li>Typisch: Baobab, Akazien, Steppengräser</li>
+        <li>ITC-bedingte Regenzeit im Sommer</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:0">
+    <div class="card-label">Klimatypen in Bildern — Übersichtstabelle</div>
+    <h3>Temperatur & Niederschlag nach Klimatyp</h3>
+    <div class="tbl-wrap" style="margin-top:12px">
+      <table>
+        <tr><th>Klimatyp</th><th>Sommer</th><th>Winter</th><th>Niederschlag</th><th>Vegetation</th></tr>
+        <tr><td><span class="tag tag-a">Af</span> Tropisch feucht</td><td>Heiss</td><td>Heiss</td><td>Ganzjährig &gt;60 mm/Mt</td><td>Tropischer Regenwald</td></tr>
+        <tr><td><span class="tag tag-a">Aw</span> Savanne</td><td>Heiss</td><td>Warm</td><td>Sommerregen, trockener Winter</td><td>Savanne, Gras, Busch</td></tr>
+        <tr><td><span class="tag tag-b">BS</span> Steppe</td><td>Warm–Heiss</td><td>Kalt–Warm</td><td>Gering, variabel</td><td>Gras, wenig Gehölz</td></tr>
+        <tr><td><span class="tag tag-b">BW</span> Wüste</td><td>Sehr heiss</td><td>Kalt–Warm</td><td>Minimal (&lt;250 mm/a)</td><td>Kaum Vegetation</td></tr>
+        <tr><td><span class="tag tag-c">Cs</span> Mediterran</td><td>Heiss, trocken</td><td>Mild, feucht</td><td>Winterregen</td><td>Hartlaubgehölz, Macchia</td></tr>
+        <tr><td><span class="tag tag-c">Cf</span> Ozeanisch</td><td>Warm</td><td>Mild</td><td>Ganzjährig gleichmässig</td><td>Laubmischwald</td></tr>
+        <tr><td><span class="tag tag-d">Df</span> Kontinental</td><td>Warm</td><td>Kalt</td><td>Ganzjährig, Sommer-max.</td><td>Nadelwald (Taiga)</td></tr>
+        <tr><td><span class="tag tag-e">ET</span> Tundra</td><td>Kühl</td><td>Sehr kalt</td><td>Wenig</td><td>Moos, Flechten, Zwergsträucher</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="zirkulation" class="section">
+  <div class="section-title">Atmosphärische Zirkulation</div>
+
+  <div class="band">
+    <p><b>Motor:</b> Druckdifferenzen entstehen durch Temperaturdifferenzen (warme Luft steigt, kalte sinkt). Die <b>Corioliskraft</b> lenkt Winde auf der NH nach rechts, auf der SH nach links ab → Drehrichtung kehrt sich um. Resultat: globales Windmuster mit drei Zirkulationszellen pro Hemisphäre.</p>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <div class="card-label">Die 3 Zirkulationszellen</div>
+      <h3>Hadley · Ferrel · Polar</h3>
+      <div class="tbl-wrap" style="margin-top:10px">
+        <table>
+          <tr><th>Zelle</th><th>Lage</th><th>Charakter</th></tr>
+          <tr><td><b>Hadley</b></td><td>0–30°</td><td>Direkter Motor; Aufstieg ITC, Absinkung subtropisch; Passatwinde</td></tr>
+          <tr><td><b>Ferrel</b></td><td>30–60°</td><td>Indirekte Zelle; Westwindgürtel; grösstes Temperaturgefälle</td></tr>
+          <tr><td><b>Polar</b></td><td>60–90°</td><td>Kaltluft sinkt am Pol; Polarfront, Jetstream (~10 km Höhe)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Druckgürtel (Boden)</div>
+      <h3>Von Äquator zum Pol</h3>
+      <div class="zone-flow" style="margin-top:8px">
+        <div class="zone-item"><div class="zone-deg">0°</div><div class="zone-bar" style="background:var(--red)"></div><div><div class="zone-name">Äquatoriale Tiefdruckrinne (ITC)</div><div class="zone-desc">Aufstieg, Konvektion, viel Niederschlag, wenig Wind</div></div></div>
+        <div class="zone-item"><div class="zone-deg">30°</div><div class="zone-bar" style="background:var(--amber)"></div><div><div class="zone-name">Subtropischer Hochdruckgürtel</div><div class="zone-desc">Absinkende Luft, trocken, Wüsten, Passate entstehen</div></div></div>
+        <div class="zone-item"><div class="zone-deg">60°</div><div class="zone-bar" style="background:var(--blue)"></div><div><div class="zone-name">Subpolare Tiefdruckrinne</div><div class="zone-desc">Polarfront, Westwindzone, Zyklone</div></div></div>
+        <div class="zone-item"><div class="zone-deg">90°</div><div class="zone-bar" style="background:var(--blue);opacity:.5"></div><div><div class="zone-name">Polares Hoch</div><div class="zone-desc">Kalt, trocken, Absinkung</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label">ITC-Verschiebung</div>
+      <h3>Saisonale Bewegung</h3>
+      <ul>
+        <li>Die Sonneneinstrahlung kippt saisonal nördlicher (Sommer) oder südlicher (Winter)</li>
+        <li>Die ITC folgt der Wärmeinsel → verschiebt sich saisonal</li>
+        <li>Grundlage für Monsun und für die Klimazonenwechsel (z.B. Savanne)</li>
+        <li>→ Jahreszeitliche Klimawechsel in den Subtropen</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Satellitenbild-Analyse</div>
+      <h3>Merkmale erkennen</h3>
+      <ul>
+        <li><b>Äquatorgürtel:</b> Dichte Wolkendecke, viele Wirbel (nicht direkt auf dem Äquator)</li>
+        <li><b>45°-Gürtel:</b> Fronten, Sturmtiefs, Westwindzone</li>
+        <li><b>Ozean:</b> mehr Wolken, stärkere Bewegung, viele Wirbel</li>
+        <li><b>Kontinent:</b> weniger Wolken, keine Wirbel, schwächere Winde</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Winde am Boden</div>
+      <h3>Passate & Westwind</h3>
+      <ul>
+        <li><b>Passate (NE/SE):</b> Aus den Subtropen Richtung Äquator; Corioliskraft dreht NE auf NH, SE auf SH</li>
+        <li><b>Westwindzone (30–60°):</b> Dominant auf NH wie SH; Hauptwind in Europa</li>
+        <li><b>Polarwind:</b> Aus Ost vom Pol Richtung 60°</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="monsun" class="section">
+  <div class="section-title">Monsun</div>
+
+  <div class="band">
+    <p>Ein <b>Monsun</b> ist ein saisonal umkehrendes Wind- und Niederschlagssystem. Er entsteht durch die unterschiedliche Erwärmung von Land und Meer (Land erwärmt/kühlt schneller) und die <b>saisonale Verschiebung der ITC</b>. Hauptbeispiel: Indischer Monsun.</p>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <div class="card-label">Entstehung</div>
+      <h3>Sommer- vs. Wintermonsun</h3>
+      <div class="tbl-wrap" style="margin-top:10px">
+        <table>
+          <tr><th></th><th>Sommermonsun</th><th>Wintermonsun</th></tr>
+          <tr><td>Windrichtung</td><td>SW → NE (Ozean → Land)</td><td>NE → SW (Land → Ozean)</td></tr>
+          <tr><td>Land</td><td>Heiss (Tief)</td><td>Kühl (Hoch)</td></tr>
+          <tr><td>Ozean</td><td>Kühler (Hoch)</td><td>Wärmer (Tief)</td></tr>
+          <tr><td>Feuchtigkeit</td><td>Sehr feucht, viel Regen</td><td>Trocken</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Schlüsselmechanismus</div>
+      <h3>ITC + Corioliskraft</h3>
+      <ul>
+        <li>Im Sommer verschiebt sich die ITC über den Subkontinent nach Norden</li>
+        <li>Die Sonneneinstrahlung kippt nördlicher → starke Erhitzung der Landmasse</li>
+        <li>Aufgrund der Corioliskraft dreht der Wind auf der NH nach rechts → SW-Monsunwind</li>
+        <li>Feuchte Meeresluft strömt ins Landesinnere → Niederschlag</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label">Positive Auswirkungen</div>
+      <h3>Vorteile</h3>
+      <ul>
+        <li>Viel Wasser → Landwirtschaft (Nassreis, Baumwolle)</li>
+        <li>Auffüllung von Grundwasser und Stauseen</li>
+        <li>Kühlung der Temperaturen</li>
+        <li>Wirtschaftliche Bedeutung für Milliarden Menschen</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Negative Auswirkungen</div>
+      <h3>Risiken</h3>
+      <ul>
+        <li><b>Überflutungen</b> und Erdrutsche</li>
+        <li><b>Ernährungsprobleme</b> bei Ausfall oder Verschiebung</li>
+        <li>Infrastrukturschäden (Strassen, Gebäude)</li>
+        <li>Krankheiten (Malaria, Cholera durch stehendes Wasser)</li>
+        <li>Saure Tropfen → Schimmel / Ernteverluste</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Geografie</div>
+      <h3>Verbreitung</h3>
+      <ul>
+        <li>Indien, Bangladesh, Pakistan (Klassischer Monsun)</li>
+        <li>Südostasien: Thailand, Vietnam, Myanmar</li>
+        <li>Westafrikanischer Monsun</li>
+        <li>Australischer Sommermonsun (NH-Winter)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="zyklon" class="section">
+  <div class="section-title">Extratropische Zyklone</div>
+
+  <div class="band">
+    <p>Extratropische Zyklone (Tiefdruckgebiete) entstehen entlang der <b>Polarfront</b> — der Grenzfläche zwischen kalter Polarluft und warmer Subtropikluft. Sie bewegen sich von West nach Ost (Westwindzone). In etwa 3–5 Tagen Lebenszeit.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-label">Entstehung — Cut-off-Prozess</div>
+      <h3>Schritt für Schritt</h3>
+      <ol style="padding-left:18px;font-size:13.5px;color:var(--muted);line-height:1.8">
+        <li>Jetstream wird wellenförmig (Rossby-Wellen)</li>
+        <li>Wellen verstärken sich; Warmluft schiebt nach Norden, Kaltluft nach Süden</li>
+        <li>Wellen schnüren sich ab → Tiefdruckgebiet (Zyklone)</li>
+        <li>Warm- und Kaltfront bilden sich</li>
+        <li>Okklusionsfront: Kaltfront holt Warmfront ein → Warmluft abgehoben</li>
+        <li>Auflösung des Tiefdruckgebiets</li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="card-label">Fronten</div>
+      <h3>Warm- vs. Kaltfront</h3>
+      <ul>
+        <li><b>Warmfront</b> (V₂ &lt; V₁): Warmluft gleitet sanft über Kaltluft; langsamer Niederschlag, Dauerregen, Stratusformen</li>
+        <li><b>Kaltfront</b> (V₂ &gt; V₁): Kaltluft schaufelt Warmluft steil hoch; kräftige Schauer, Gewitter, Cb-Wolken</li>
+        <li><b>Okklusionsfront:</b> Kaltfront holt Warmfront ein</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Wolken im Querschnitt</div>
+      <h3>Von West nach Ost</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Zone</th><th>Wolken</th><th>Wetter</th></tr>
+          <tr><td>Vor Warmfront</td><td>Ci → Cs → As → Ns</td><td>Aufziehend, Regen</td></tr>
+          <tr><td>Warmsektor</td><td>St, Sc, Cu</td><td>Bedeckt, mild</td></tr>
+          <tr><td>Kaltfront</td><td>Cb, Cu</td><td>Schauer, Gewitter</td></tr>
+          <tr><td>Hinter Kaltfront</td><td>Auflockerung</td><td>Kalt, klarer</td></tr>
+        </table>
+      </div>
+      <p style="font-size:11.5px;margin-top:10px;color:var(--muted)">Ci=Cirrus · Cs=Cirrostratus · As=Altostratus · Ns=Nimbostratus · St=Stratus · Sc=Stratocumulus · Cu=Cumulus · Cb=Cumulonimbus · Ac=Altocumulus</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Stabilität</div>
+      <h3>ΔT-Regel</h3>
+      <div class="formula">Je kleiner ΔT → stabiler → flache Wolken (St, Sc)<br>Je grösser ΔT → instabiler → hohe Wolken (Cu, Cb)</div>
+      <ul>
+        <li>Nimbostratus: immer grösser, tiefer, dunkler werdende Wolken</li>
+        <li>Kleine Luftmassen → stabiler, wenig Konvektion</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Jahreszeit</div>
+      <h3>Sommer vs. Winter</h3>
+      <ul>
+        <li>Im <b>Sommer</b> liegt der Kaltfrontregen eher im Norden</li>
+        <li>Im <b>Winter</b> liegt er im Süden, weniger Ausnahmen</li>
+        <li>Unter der Kaltfront: oft regnerisch auf der Vorderseite (kalt)</li>
+        <li>Zyklone: 3–5×/Monat über Mitteleuropa</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Jetstream & Antizyklone</div>
+      <h3>Hoch- und Tiefdruckgebiete</h3>
+      <ul>
+        <li><b>Jetstream</b> (ca. 10 km): Polarfront-Jet; lenkt Zugbahn der Tiefs</li>
+        <li><b>Zyklone (Tief):</b> Konvergenz, Aufstieg, Wolken, Niederschlag</li>
+        <li><b>Antizyklone (Hoch):</b> Divergenz, Absinkung, wolkenlos, trocken</li>
+        <li>Luft dreht auf NH im Tief CCW (links), im Hoch CW (rechts)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="china" class="section">
+  <div class="section-title">Grossregionen Chinas</div>
+
+  <div class="band">
+    <p>China gliedert sich in <b>vier Hauptregionen</b> mit sehr unterschiedlichen naturräumlichen und politisch-kulturellen Merkmalen. Die Unterschiede umfassen Klima, Relief, Vegetation, Bodenschätze, Bevölkerung und Wirtschaft.</p>
+  </div>
+
+  <div class="region-card" id="r1">
+    <div class="region-header" onclick="toggleRegion('r1')">
+      <div class="region-icon">⛰</div>
+      <div class="region-title">Hochland von Tibet</div>
+      <div class="region-climate">Hochgebirgsklima</div>
+      <div class="region-chevron">▾</div>
+    </div>
+    <div class="region-body">
+      <div class="region-item"><div class="region-item-label">Klima</div><p>Kalt und trocken; Hochgebirgsklima; durchschnittlich ~4500 m ü.M.; dünne Luft (wenig O₂)</p></div>
+      <div class="region-item"><div class="region-item-label">Relief</div><p>Höchstes Hochland der Erde; Himalaya im Süden; stark zerklüftete Hochflächen</p></div>
+      <div class="region-item"><div class="region-item-label">Vegetation</div><p>Sehr spärlich; Hochgebirgssteppen; wenig Wald; Hochlandbüsche, Moose</p></div>
+      <div class="region-item"><div class="region-item-label">Bodenschätze</div><p>Lithium, seltene Erden, geringe Erschliessbarkeit durch Höhe und Abgeschiedenheit</p></div>
+      <div class="region-item"><div class="region-item-label">Bevölkerung</div><p>Tibeter; Buddhismus dominant (stark kontrolliert); nomadische Lebensweise; geringe Dichte</p></div>
+      <div class="region-item"><div class="region-item-label">Wirtschaft</div><p>Subsistenz; Yak, Schaf, Ziege; wenig Ackerbau; politisch kontrolliert durch Peking</p></div>
+    </div>
+  </div>
+
+  <div class="region-card" id="r2">
+    <div class="region-header" onclick="toggleRegion('r2')">
+      <div class="region-icon">🏜</div>
+      <div class="region-title">Sinkiang (Xinjiang)</div>
+      <div class="region-climate">Arid-Kontinental</div>
+      <div class="region-chevron">▾</div>
+    </div>
+    <div class="region-body">
+      <div class="region-item"><div class="region-item-label">Klima</div><p>Extrem kontinental; Wüste Taklamakan im Kern; sehr grosses ΔT (Sommer heiss, Winter eisig); kaum Niederschlag</p></div>
+      <div class="region-item"><div class="region-item-label">Relief</div><p>Hochgebirgsränder (Tianshan, Kunlun) umschliessen tiefe Becken; Turfan-Senke unter Meeresniveau</p></div>
+      <div class="region-item"><div class="region-item-label">Vegetation</div><p>Wüste im Zentrum; Oasen an Gebirgsrändern; kaum natürliche Vegetation</p></div>
+      <div class="region-item"><div class="region-item-label">Bodenschätze</div><p>Erdöl, Erdgas, Kohle, Metalle; wirtschaftlich wichtig trotz Abgeschiedenheit</p></div>
+      <div class="region-item"><div class="region-item-label">Bevölkerung</div><p>Uyghuren (Turkstämmig); stark kontrolliert; Karez-Bewässerung; geringe Gesamtdichte</p></div>
+      <div class="region-item"><div class="region-item-label">Wirtschaft</div><p>Oasenwirtschaft; Baumwolle, Obst; Rohstoffförderung; Eisenbahn verbindet mit China</p></div>
+    </div>
+  </div>
+
+  <div class="region-card open" id="r3">
+    <div class="region-header" onclick="toggleRegion('r3')">
+      <div class="region-icon">🌿</div>
+      <div class="region-title">Südchinesisches Bergland</div>
+      <div class="region-climate">Feucht-Subtropisch</div>
+      <div class="region-chevron">▾</div>
+    </div>
+    <div class="region-body">
+      <div class="region-item"><div class="region-item-label">Klima</div><p>Feucht-subtropisch; viel Niederschlag im Sommer; ganzjährig hohe Temperaturen und Niederschlag</p></div>
+      <div class="region-item"><div class="region-item-label">Relief</div><p>Mittelgebirgsstöcke bis 2000 m mit Tiefländern, Becken und Talungen fast auf Meeresniveau. Turmkarst (glockenförmig) aus leicht löslichem Kalk — zunehmende Steigung mit abnehmender Höhe</p></div>
+      <div class="region-item"><div class="region-item-label">Vegetation</div><p>Subtropischer Feucht-/Lorbeerwaldwald (trocken bis immergrün); viele Bäume auf Hangebene durch erschwertes Abholzen (steiles Gelände)</p></div>
+      <div class="region-item"><div class="region-item-label">Bodenschätze</div><p>Mittlere Vorkommen von Braun- und Steinkohle; Vorkommen von Antimon und Wolfram</p></div>
+      <div class="region-item"><div class="region-item-label">Bevölkerung</div><p>Han-Chinesen in Niederungen; Minderheiten im Bergland; Daoismus, Konfuzianismus, Buddhismus (beschränkt); hier war 90% der Song-Dynastie</p></div>
+      <div class="region-item"><div class="region-item-label">Wirtschaft</div><p>Nassreis in Niederungen; Teeanbau; Schweine, Ziegen, Rinder; viele 1-Mio-Städte (Wuhan, Kanton, Shanghai); mittelmässige Industrie; viele Bahnlinien</p></div>
+    </div>
+  </div>
+
+  <div class="region-card" id="r4">
+    <div class="region-header" onclick="toggleRegion('r4')">
+      <div class="region-icon">🌾</div>
+      <div class="region-title">Nordchinesisches Tiefland</div>
+      <div class="region-climate">Gemässigt-Kontinental</div>
+      <div class="region-chevron">▾</div>
+    </div>
+    <div class="region-body">
+      <div class="region-item"><div class="region-item-label">Klima</div><p>Gemässigt-kontinental; trockene, kalte Winter; feuchte, warme Sommer; grösseres ΔT als Bergland</p></div>
+      <div class="region-item"><div class="region-item-label">Relief</div><p>Flaches Schwemmland des Gelben Flusses (Huanghe); Lössboden; flussnahe Überschwemmungsgebiete; Peking liegt am nordwestlichen Rand</p></div>
+      <div class="region-item"><div class="region-item-label">Vegetation</div><p>Laub-/Mischwälder; heute fast vollständig landwirtschaftlich genutzt; ursprünglich Steppenwälder</p></div>
+      <div class="region-item"><div class="region-item-label">Bodenschätze</div><p>Kohle im Umland; fruchtbarer Lössboden als wichtigste «Ressource»</p></div>
+      <div class="region-item"><div class="region-item-label">Bevölkerung</div><p>Sehr dicht besiedelt; Han-Chinesen; Peking als politisches Zentrum; wichtige Verkehrsachsen</p></div>
+      <div class="region-item"><div class="region-item-label">Wirtschaft</div><p>Weizenanbau, Hirse, Mais (trockenere Sommer); intensive Landwirtschaft; wichtige Industrie- und Dienstleistungszentren (Peking, Tianjin)</p></div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function toggleRegion(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+</script>
+</body>
+</html>
