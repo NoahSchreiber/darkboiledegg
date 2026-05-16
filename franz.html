@@ -640,7 +640,9 @@
 	}
 
 	function isStoryTitle(line) {
-		return /^mini-(?:histoire|geschichte)\s+\d+\s*[:\-—]/i.test(line);
+		return /^mini-(?:histoire|geschichte)\s+\d+\s*[:\-—]/i.test(line)
+			|| /^sc[èe]ne\s+\d+\s*[:\-—]/i.test(line)
+			|| /^szene\s+\d+\s*[:\-—]/i.test(line);
 	}
 
 	function splitStories(source) {
@@ -782,7 +784,7 @@
 		const frenchSegment = parseSegment(frenchText || "");
 		const germanSegment = parseSegment(germanText || "");
 
-		if (!frenchSegment && !germanSegment) {
+		if (!frenchSegment || !germanSegment) {
 			return null;
 		}
 
@@ -853,7 +855,7 @@
 	}
 
 	function shortTitle(title) {
-		return title.replace(/^Mini-(?:histoire|Geschichte)\s+\d+\s*[:\-—]\s*/i, "");
+		return title.replace(/^(?:Mini-(?:histoire|Geschichte)|Sc[èe]ne|Szene)\s+\d+\s*[:\-—]\s*/i, "");
 	}
 
 	function renderIndex(stories) {
@@ -883,7 +885,7 @@
 
 			const marker = document.createElement("div");
 			marker.className = "story-number";
-			marker.textContent = `Mini-histoire ${story.index}`;
+			marker.textContent = `Scène ${story.index}`;
 			article.appendChild(marker);
 
 			article.appendChild(createToggle("toggle-block story-title", story.titleFr, story.titleDe));
