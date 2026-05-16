@@ -79,6 +79,24 @@
       max-width: 340px;
     }
 
+    .toolbar-button {
+      border: 1px solid #2e2e2e;
+      background: #161616;
+      color: #d8d8d8;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .toolbar-button:hover {
+      background: #1f1f1f;
+      border-color: #4a4a4a;
+      color: #fff;
+    }
+
     .search-input {
       width: 100%;
       background: #1a1a1a;
@@ -155,6 +173,8 @@
     }
 
     .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+    .card-grid.show-german-default .flip-inner { transform: rotateY(180deg); }
+    .card-grid.show-german-default .flip-card.flipped .flip-inner { transform: rotateY(0deg); }
 
     .flip-front,
     .flip-back {
@@ -222,6 +242,7 @@
   <section class="lang-section" id="francais">
     <div class="lang-header">
       <h2 class="lang-title">Französisch</h2>
+      <button class="toolbar-button" id="default-side-toggle" type="button">Standard: FR</button>
       <div class="search-wrap">
         <input class="search-input" id="search-fr" type="search" placeholder="suchen..." autocomplete="off" />
       </div>
@@ -2750,9 +2771,11 @@
     var countLabel = document.getElementById('count-fr');
     var resultsHint = document.getElementById('results-hint-fr');
     var loadMoreButton = document.getElementById('load-more-fr');
+    var defaultSideToggle = document.getElementById('default-side-toggle');
     var filteredVocab = vocabFR.slice();
     var visibleCount = 0;
     var searchTimer = null;
+    var defaultSide = 'fr';
 
     function makeCard(item) {
       var card = document.createElement('div');
@@ -2817,10 +2840,20 @@
       loadMoreButton.hidden = visibleCount >= filteredVocab.length;
     }
 
+    function updateDefaultSide() {
+      var showGerman = defaultSide === 'de';
+
+      grid.classList.toggle('show-german-default', showGerman);
+      defaultSideToggle.textContent = showGerman ? 'Standard: DE' : 'Standard: FR';
+      defaultSideToggle.setAttribute('aria-pressed', showGerman ? 'true' : 'false');
+      defaultSideToggle.title = showGerman ? 'Karten starten auf Deutsch' : 'Karten starten auf Französisch';
+    }
+
     function applyFilter(query) {
       filteredVocab = getFilteredVocab(query);
       visibleCount = Math.min(PAGE_SIZE, filteredVocab.length);
       renderCards();
+      updateDefaultSide();
     }
 
     grid.addEventListener('click', function(event) {
@@ -2834,9 +2867,16 @@
     loadMoreButton.addEventListener('click', function() {
       visibleCount = Math.min(visibleCount + PAGE_SIZE, filteredVocab.length);
       renderCards();
+      updateDefaultSide();
+    });
+
+    defaultSideToggle.addEventListener('click', function() {
+      defaultSide = defaultSide === 'fr' ? 'de' : 'fr';
+      updateDefaultSide();
     });
 
     applyFilter('');
+    updateDefaultSide();
     searchInput.addEventListener('input', function() {
       if (searchTimer) {
         clearTimeout(searchTimer);
