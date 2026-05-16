@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vocis</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0d0d0d;
+      color: #e8e8e8;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 80px 24px 60px;
+    }
+
+    /* ── Nav ── */
+    .site-nav {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.66);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+    .site-nav a {
+      color: #fff;
+      font-family: monospace;
+      font-size: 13px;
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.15s;
+    }
+    .site-nav a:hover { opacity: 1; text-decoration: underline; }
+    .site-nav a.active {
+      opacity: 1;
+      text-decoration: underline;
+      pointer-events: none;
+    }
+
+    /* ── Page layout ── */
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .lang-section {
+      margin-top: 32px;
+    }
+
+    .lang-title {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #888;
+      border-bottom: 1px solid #2a2a2a;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    /* ── Flip card ── */
+    .flip-card {
+      perspective: 800px;
+      height: 90px;
+      cursor: pointer;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.4s ease;
+    }
+
+    .flip-card.flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-front,
+    .flip-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 12px;
+      border-radius: 10px;
+    }
+
+    .flip-front {
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #e8e8e8;
+    }
+
+    .flip-front:hover {
+      border-color: #555;
+      background: #222;
+    }
+
+    .flip-back {
+      background: #1c2a1c;
+      border: 1px solid #2e4a2e;
+      transform: rotateY(180deg);
+      font-size: 0.9rem;
+      color: #a8d8a8;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="Site">
+    <a href="index.html">egg</a>
+    <a href="eggening.html">eggening</a>
+    <a href="geschichte-zusammenfassung.html">geschichte</a>
+    <a href="what.html">what</a>
+    <a class="active" href="vocis.html">vocis</a>
+  </nav>
+
+  <h1 class="page-title">Vocis</h1>
+
+  <section class="lang-section" id="francais">
+    <h2 class="lang-title">Französisch</h2>
+    <div class="card-grid" id="card-grid-fr"></div>
+  </section>
+
+  <script>
+    const vocabFR = [
+      { fr: "les gens",       de: "die Leute, die Menschen" },
+      { fr: "commun(e)",      de: "gemeinsam" },
+      { fr: "le membre",      de: "das Mitglied" },
+      { fr: "le voisin, la voisine", de: "der Nachbar, die Nachbarin" },
+      { fr: "le type",        de: "der Typ, der Kerl" },
+      { fr: "la rencontre",   de: "die Begegnung, das Treffen" },
+      { fr: "rencontrer",     de: "treffen" },
+      { fr: "la réunion",     de: "die Versammlung" },
+      { fr: "le rendez-vous", de: "die Verabredung" },
+    ];
+
+    const grid = document.getElementById('card-grid-fr');
+
+    vocabFR.forEach(function(item) {
+      const card = document.createElement('div');
+      card.className = 'flip-card';
+      card.innerHTML =
+        '<div class="flip-inner">' +
+          '<div class="flip-front">' + item.fr + '</div>' +
+          '<div class="flip-back">'  + item.de + '</div>' +
+        '</div>';
+      card.addEventListener('click', function() {
+        card.classList.toggle('flipped');
+      });
+      grid.appendChild(card);
+    });
+  </script>
+
+</body>
+</html>
