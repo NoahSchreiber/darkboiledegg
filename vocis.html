@@ -99,6 +99,41 @@
       white-space: nowrap;
     }
 
+    .results-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .results-hint {
+      color: #6f6f6f;
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .load-more-button {
+      border: 1px solid #2e4a2e;
+      background: #162016;
+      color: #bde0bd;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .load-more-button:hover {
+      background: #1c2a1c;
+      border-color: #3d613d;
+    }
+
+    .load-more-button[hidden] {
+      display: none;
+    }
+
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -160,6 +195,16 @@
       font-size: 0.9rem;
       padding: 20px 0;
     }
+
+    @media (max-width: 640px) {
+      .results-toolbar {
+        align-items: stretch;
+      }
+
+      .load-more-button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -183,6 +228,10 @@
       <span class="count-label" id="count-fr"></span>
     </div>
     <div class="card-grid" id="card-grid-fr"></div>
+    <div class="results-toolbar">
+      <span class="results-hint" id="results-hint-fr"></span>
+      <button class="load-more-button" id="load-more-fr" type="button">Mehr anzeigen</button>
+    </div>
   </section>
 
   <script>
@@ -2695,46 +2744,108 @@
   { fr: "un Atlantique", de: "ein Atlantik" }
     ];
 
+    var PAGE_SIZE = 120;
     var grid = document.getElementById('card-grid-fr');
     var searchInput = document.getElementById('search-fr');
     var countLabel = document.getElementById('count-fr');
-    var cards = [];
+    var resultsHint = document.getElementById('results-hint-fr');
+    var loadMoreButton = document.getElementById('load-more-fr');
+    var filteredVocab = vocabFR.slice();
+    var visibleCount = 0;
+    var searchTimer = null;
 
     function makeCard(item) {
       var card = document.createElement('div');
       card.className = 'flip-card';
-      card.innerHTML =
-        '<div class="flip-inner">' +
-          '<div class="flip-front">' + item.fr + '</div>' +
-          '<div class="flip-back">'  + item.de + '</div>' +
-        '</div>';
-      card.addEventListener('click', function() { card.classList.toggle('flipped'); });
+
+      var inner = document.createElement('div');
+      inner.className = 'flip-inner';
+
+      var front = document.createElement('div');
+      front.className = 'flip-front';
+      front.textContent = item.fr;
+
+      var back = document.createElement('div');
+      back.className = 'flip-back';
+      back.textContent = item.de;
+
+      inner.appendChild(front);
+      inner.appendChild(back);
+      card.appendChild(inner);
+
       return card;
     }
 
-    vocabFR.forEach(function(item) {
-      cards.push({ item: item, el: makeCard(item) });
-    });
-
-    function render(query) {
+    function getFilteredVocab(query) {
       var q = query.trim().toLowerCase();
-      grid.innerHTML = '';
-      var visible = 0;
-      cards.forEach(function(c) {
-        var show = q === '' || c.item.fr.toLowerCase().includes(q) || c.item.de.toLowerCase().includes(q);
-        if (show) { grid.appendChild(c.el); visible++; }
+
+      if (q === '') {
+        return vocabFR;
+      }
+
+      return vocabFR.filter(function(item) {
+        return item.fr.toLowerCase().includes(q) || item.de.toLowerCase().includes(q);
       });
-      countLabel.textContent = visible + ' / ' + vocabFR.length;
-      if (visible === 0) {
+    }
+
+    function renderCards() {
+      grid.innerHTML = '';
+      countLabel.textContent = visibleCount + ' / ' + filteredVocab.length + ' sichtbar';
+
+      if (filteredVocab.length === 0) {
         var msg = document.createElement('p');
         msg.className = 'no-results';
         msg.textContent = 'Keine Treffer.';
         grid.appendChild(msg);
+        resultsHint.textContent = '';
+        loadMoreButton.hidden = true;
+        return;
       }
+
+      var fragment = document.createDocumentFragment();
+      filteredVocab.slice(0, visibleCount).forEach(function(item) {
+        fragment.appendChild(makeCard(item));
+      });
+      grid.appendChild(fragment);
+
+      if (visibleCount < filteredVocab.length) {
+        resultsHint.textContent = 'Es werden nur die ersten Treffer geladen, damit die Seite flüssig bleibt.';
+      } else {
+        resultsHint.textContent = '';
+      }
+
+      loadMoreButton.hidden = visibleCount >= filteredVocab.length;
     }
 
-    render('');
-    searchInput.addEventListener('input', function() { render(searchInput.value); });
+    function applyFilter(query) {
+      filteredVocab = getFilteredVocab(query);
+      visibleCount = Math.min(PAGE_SIZE, filteredVocab.length);
+      renderCards();
+    }
+
+    grid.addEventListener('click', function(event) {
+      var card = event.target.closest('.flip-card');
+
+      if (card && grid.contains(card)) {
+        card.classList.toggle('flipped');
+      }
+    });
+
+    loadMoreButton.addEventListener('click', function() {
+      visibleCount = Math.min(visibleCount + PAGE_SIZE, filteredVocab.length);
+      renderCards();
+    });
+
+    applyFilter('');
+    searchInput.addEventListener('input', function() {
+      if (searchTimer) {
+        clearTimeout(searchTimer);
+      }
+
+      searchTimer = setTimeout(function() {
+        applyFilter(searchInput.value);
+      }, 80);
+    });
   </script>
 
 </body>
