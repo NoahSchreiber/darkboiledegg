@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monet</title>
+    <meta name="description" content="Drop in a picture and Monet paints it in oil, stroke by stroke." />
+    <style>
+      :root {
+        --bg: #0d0c0b;
+        --panel: #141210;
+        --line: rgba(255, 244, 230, 0.12);
+        --text: #efe9df;
+        --muted: rgba(239, 233, 223, 0.58);
+        --faint: rgba(239, 233, 223, 0.34);
+        --track: rgba(239, 233, 223, 0.16);
+        --accent: #f0b93a;
+        --accent-ink: #1c1505;
+        --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+        color-scheme: dark;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      [hidden] { display: none !important; }
+
+      html, body { height: 100%; }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .site-nav {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.66);
+        backdrop-filter: blur(10px);
+        z-index: 10;
+      }
+      .site-nav a {
+        color: #fff;
+        font-family: monospace;
+        font-size: 13px;
+        text-decoration: none;
+        opacity: 0.7;
+        transition: opacity 0.15s;
+      }
+      .site-nav a:hover { opacity: 1; text-decoration: underline; }
+      .site-nav a.active { opacity: 1; text-decoration: underline; pointer-events: none; }
+
+      /* ---------------- Layout ---------------- */
+
+      .studio {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        grid-template-rows: auto minmax(0, 1fr);
+        grid-template-areas: "stage intro" "stage controls";
+        height: 100vh;
+        height: 100dvh;
+      }
+      .intro, .controls { background: var(--panel); border-left: 1px solid var(--line); }
+      .intro { grid-area: intro; padding: 28px 26px 18px; }
+      .controls { grid-area: controls; padding: 4px 26px 28px; overflow-y: auto; }
+      .stage {
+        grid-area: stage;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 28px 32px 20px 150px;
+        background: radial-gradient(ellipse at 50% 42%, rgba(255, 236, 205, 0.05), transparent 62%);
+        min-height: 0;
+      }
+
+      @media (max-width: 899px) {
+        .studio { display: flex; flex-direction: column; height: auto; }
+        .intro { order: 1; border: 0; background: none; padding: 18px 16px 12px 140px; min-height: 176px; }
+        .stage { order: 2; padding: 8px 16px 20px; }
+        .controls { order: 3; border-left: 0; border-top: 1px solid var(--line); padding: 8px 16px 40px; overflow: visible; }
+      }
+
+      /* ---------------- Intro ---------------- */
+
+      h1 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 44px;
+        line-height: 1;
+        letter-spacing: -0.01em;
+      }
+      .intro p { color: var(--muted); margin-top: 12px; }
+      .palette { display: flex; gap: 6px; margin-top: 14px; }
+      .palette span {
+        width: 16px;
+        height: 16px;
+        border-radius: 50% 46% 52% 44%;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      }
+      @media (max-width: 899px) {
+        h1 { font-size: 36px; }
+        .intro p { font-size: 12px; }
+      }
+
+      /* ---------------- Stage ---------------- */
+
+      .easel {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .frame {
+        position: relative;
+        flex: none;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06);
+      }
+      .frame canvas, .frame img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .frame img { object-fit: cover; }
+
+      .drop {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        text-align: center;
+        padding: 24px;
+        border: 1.5px dashed rgba(255, 244, 230, 0.2);
+        border-radius: 16px;
+        transition: border-color 0.15s, background 0.15s;
+      }
+      .drop h2 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 28px;
+      }
+      .drop p { color: var(--muted); }
+      .drop .blobs { display: flex; gap: 10px; margin-bottom: 4px; }
+      .drop .blobs span { width: 26px; height: 22px; border-radius: 55% 45% 50% 50% / 60% 55% 45% 40%; opacity: 0.95; }
+      .drop .buttons { justify-content: center; }
+      .stage.dragging .drop, .stage.dragging .frame { border-color: var(--accent); background: rgba(240, 185, 58, 0.06); }
+      .stage.dragging .frame { outline: 2px dashed var(--accent); outline-offset: 6px; }
+      .touch-only { display: none; }
+      @media (hover: none) {
+        .touch-only { display: inline; }
+        .pointer-only { display: none; }
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+        margin-top: 16px;
+        min-height: 20px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .bar { width: min(220px, 30vw); height: 3px; border-radius: 2px; background: var(--track); overflow: hidden; }
+      .bar div { height: 100%; width: 0; background: var(--accent); transition: width 0.2s linear; }
+      .status .percent { width: 4ch; text-align: right; }
+      @media (max-width: 899px) {
+        .easel { flex: none; height: 62vh; height: 62svh; }
+        .status { flex-wrap: wrap; row-gap: 6px; margin-top: 12px; }
+        .status #stage-name { flex-basis: 100%; min-height: 1.5em; text-align: center; }
+      }
+
+      .note {
+        position: absolute;
+        left: 50%;
+        bottom: 56px;
+        transform: translateX(-50%);
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid var(--line);
+        color: var(--text);
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* ---------------- Controls ---------------- */
+
+      h3 {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin: 24px 0 10px;
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+      h3 small { font-size: 11px; letter-spacing: 0; text-transform: none; }
+
+      .buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+      button {
+        font: inherit;
+        color: var(--text);
+        background: rgba(255, 244, 230, 0.06);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 7px 14px;
+        cursor: pointer;
+        touch-action: manipulation;
+        transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+      }
+      button:hover:not(:disabled) { background: rgba(255, 244, 230, 0.12); border-color: rgba(255, 244, 230, 0.24); }
+      button:disabled { opacity: 0.4; cursor: default; }
+      button:focus-visible, input:focus-visible + .swatch, input:focus-visible + .pill, input:focus-visible + .switch { outline: 2px solid var(--accent); outline-offset: 2px; }
+      button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+      button.primary:hover:not(:disabled) { background: #f6c955; border-color: #f6c955; }
+      button.nudge { border-color: var(--accent); color: var(--accent); }
+      button.link { background: none; border: 0; padding: 0; color: var(--muted); text-decoration: underline; border-radius: 0; }
+      button.link:hover:not(:disabled) { background: none; color: var(--text); }
+      .controls > .buttons:first-child { margin-top: 10px; }
+      .peek { margin-top: 8px; width: 100%; user-select: none; -webkit-user-select: none; touch-action: none; }
+
+      .slider { display: block; margin-bottom: 14px; }
+      .slider .name { display: block; margin-bottom: 2px; }
+      .slider .ends { display: flex; justify-content: space-between; color: var(--faint); font-size: 11px; }
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        display: block;
+        width: 100%;
+        height: 22px;
+        background: transparent;
+        cursor: pointer;
+        --fill: 50%;
+      }
+      input[type="range"]::-webkit-slider-runnable-track {
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(to right, var(--accent) var(--fill), var(--track) var(--fill));
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        margin-top: -6px;
+        border: 0;
+        border-radius: 50%;
+        background: var(--text);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+      }
+      input[type="range"]::-moz-range-track { height: 4px; border-radius: 2px; background: var(--track); }
+      input[type="range"]::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--accent); }
+      input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border: 0; border-radius: 50%; background: var(--text); }
+      input[type="range"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+
+      .choices { display: flex; gap: 8px; flex-wrap: wrap; }
+      .choices label { cursor: pointer; }
+      .choices input { position: absolute; opacity: 0; width: 0; height: 0; }
+      .papers label { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 56px; color: var(--muted); font-size: 11px; }
+      .swatch {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+        transition: transform 0.15s;
+      }
+      .papers input:checked + .swatch { box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--accent); }
+      .papers input:checked ~ span:last-child { color: var(--text); }
+      .sizes { margin-top: 12px; }
+      .pill { display: block; padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+      .sizes input:checked + .pill { border-color: var(--accent); color: var(--text); background: rgba(240, 185, 58, 0.1); }
+
+      .toggle { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; }
+      .toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+      .switch {
+        position: relative;
+        flex: none;
+        width: 34px;
+        height: 20px;
+        border-radius: 999px;
+        background: var(--track);
+        transition: background 0.15s;
+      }
+      .switch::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--text);
+        transition: transform 0.15s;
+      }
+      .toggle input:checked + .switch { background: var(--accent); }
+      .toggle input:checked + .switch::after { transform: translateX(14px); background: var(--accent-ink); }
+      .toggle small { display: block; color: var(--faint); font-size: 11px; }
+
+      .downloads { margin-top: 22px; }
+      .footnote { margin-top: 22px; color: var(--faint); font-size: 11px; }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJMNZ6M9NZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RJMNZ6M9NZ');
+    </script>
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Site">
+      <a href="index.html">egg</a>
+      <a href="eggening.html">eggening</a>
+      <a href="geschichte-zusammenfassung.html">geschichte</a>
+      <a href="what.html">what</a>
+      <a href="vocis.html">vocis</a>
+      <a class="active" href="monet.html">monet</a>
+    </nav>
+
+    <main class="studio">
+      <header class="intro">
+        <h1>monet</h1>
+        <p>Drop in a picture and Monet paints it in oil, stroke by stroke: big color masses first, then light and shadow, broken color and the last highlights.</p>
+        <div class="palette" id="palette"></div>
+      </header>
+
+      <section class="stage" id="stage">
+        <div class="easel" id="easel">
+          <div class="frame" id="frame" hidden>
+            <canvas id="painting"></canvas>
+            <img id="photo" alt="the original picture" hidden />
+          </div>
+          <div class="drop" id="drop">
+            <div class="blobs" id="blobs"></div>
+            <h2><span class="pointer-only">drop a picture here</span><span class="touch-only">pick a picture</span></h2>
+            <div class="buttons">
+              <button class="primary" id="drop-choose">choose a picture</button>
+              <button id="example">paint the evil egg</button>
+            </div>
+            <p class="pointer-only">you can also paste one</p>
+          </div>
+          <div class="status" id="status" hidden>
+            <span id="stage-name"></span>
+            <div class="bar"><div id="bar-fill"></div></div>
+            <span class="percent" id="percent"></span>
+          </div>
+        </div>
+        <div class="note" id="note" hidden></div>
+      </section>
+
+      <aside class="controls">
+        <div class="buttons">
+          <button class="primary" id="choose">new picture</button>
+          <button id="pause" disabled>pause</button>
+          <button id="again" disabled>paint again</button>
+        </div>
+        <button class="peek" id="peek" disabled>hold to see the original</button>
+
+        <h3>how he paints</h3>
+        <label class="slider">
+          <span class="name">speed</span>
+          <input type="range" min="0" max="1" step="0.01" data-setting="speed" />
+          <span class="ends"><span>slow</span><span>instant</span></span>
+        </label>
+        <label class="slider">
+          <span class="name">brush</span>
+          <input type="range" min="0" max="1" step="0.01" data-setting="brush" />
+          <span class="ends"><span>fine</span><span>bold</span></span>
+        </label>
+        <label class="slider">
+          <span class="name">detail</span>
+          <input type="range" min="0" max="1" step="0.01" data-setting="detail" />
+          <span class="ends"><span>loose</span><span>precise</span></span>
+        </label>
+        <label class="slider">
+          <span class="name">color</span>
+          <input type="range" min="0" max="1" step="0.01" data-setting="color" />
+          <span class="ends"><span>true to life</span><span>impressionist</span></span>
+        </label>
+        <label class="slider">
+          <span class="name">paint</span>
+          <input type="range" min="0" max="1" step="0.01" data-setting="wetness" />
+          <span class="ends"><span>dry layers</span><span>wet in wet</span></span>
+        </label>
+
+        <h3>canvas <small>for the next painting</small></h3>
+        <div class="choices papers" role="radiogroup" aria-label="paper">
+          <label><input type="radio" name="paper" value="white" data-setting="paper" /><span class="swatch" data-paper="white"></span><span>white</span></label>
+          <label><input type="radio" name="paper" value="cream" data-setting="paper" /><span class="swatch" data-paper="cream"></span><span>cream</span></label>
+          <label><input type="radio" name="paper" value="grey" data-setting="paper" /><span class="swatch" data-paper="grey"></span><span>grey</span></label>
+          <label><input type="radio" name="paper" value="black" data-setting="paper" /><span class="swatch" data-paper="black"></span><span>black</span></label>
+        </div>
+        <div class="choices sizes" role="radiogroup" aria-label="size">
+          <label><input type="radio" name="size" value="small" data-setting="size" /><span class="pill">small</span></label>
+          <label><input type="radio" name="size" value="medium" data-setting="size" /><span class="pill">medium</span></label>
+          <label><input type="radio" name="size" value="large" data-setting="size" /><span class="pill">large</span></label>
+        </div>
+
+        <h3>extras</h3>
+        <label class="toggle">
+          <input type="checkbox" data-setting="sound" />
+          <span class="switch"></span>
+          <span>splat sounds</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" data-setting="video" />
+          <span class="switch"></span>
+          <span>record a video<small>of the next painting, with its sounds</small></span>
+        </label>
+
+        <div class="buttons downloads">
+          <button id="save-image" disabled>save painting</button>
+          <button id="save-video" hidden>save video</button>
+        </div>
+
+        <p class="footnote">
+          Every stroke is a real mix of Monet's eight paints, simulated wavelength by wavelength on your graphics card.
+          Your picture never leaves your computer.
+          <button class="link" id="reset">reset settings</button>
+        </p>
+      </aside>
+    </main>
+
+    <input type="file" id="file" accept="image/*" hidden />
+
+    <script src="monet/painter.js"></script>
+    <script>
+      (() => {
+        "use strict";
+
+        const $ = (id) => document.getElementById(id);
+        const stage = $("stage"), easel = $("easel"), frame = $("frame"), element = $("painting"), photo = $("photo");
+
+        // Pixels of the painting for each size
+        const SIZES = { small: 250000, medium: 500000, large: 1000000 };
+        const DEFAULTS = { ...Monet.STYLE_DEFAULTS, paper: "white", size: "medium", sound: true, video: false };
+        const STORAGE_KEY = "monet-settings";
+        // Video formats to record in, the first one the browser can make
+        const VIDEO_TYPES = ["video/mp4;codecs=avc1.42E01E,mp4a.40.2", "video/mp4", "video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"];
+
+        const values = { ...DEFAULTS, ...loadSettings() };
+        const style = new Monet.Style(values);
+        const splats = new Monet.Splats("monet/splat.mp3", () => values.sound);
+
+        // The picture being painted, Monet painting it, and the recording of it
+        let picture = null;
+        let painter = null;
+        let recorder = null;
+        let videoBlob = null;
+        let startedAt = 0;
+        let finishedAt = 0;
+        let needsDraw = true;
+        let shownVersion = -1;
+
+        let canvas;
+        try {
+          canvas = new Monet.PaintCanvas(element);
+        } catch (error) {
+          console.error(error);
+          $("drop").innerHTML = "<h2>Monet needs WebGL 2</h2><p>This browser doesn't offer it. A recent Chrome, Firefox, Safari or Edge does.</p>";
+          for (const button of document.querySelectorAll("button")) button.disabled = true;
+          return;
+        }
+
+        // ---------------- Settings ----------------
+
+        function loadSettings() {
+          try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+          } catch (error) {
+            return {};
+          }
+        }
+
+        function saveSettings() {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(values));
+          } catch (error) {
+            // Not saved, the settings still work for this visit
+          }
+        }
+
+        function showSettings() {
+          for (const input of document.querySelectorAll("[data-setting]")) {
+            const value = values[input.dataset.setting];
+            if (input.type === "range") {
+              input.value = value;
+              input.style.setProperty("--fill", `${value * 100}%`);
+            } else if (input.type === "checkbox") {
+              input.checked = value;
+            } else {
+              input.checked = input.value === value;
+            }
+          }
+        }
+
+        for (const input of document.querySelectorAll("[data-setting]")) {
+          const key = input.dataset.setting;
+          input.addEventListener(input.type === "range" ? "input" : "change", () => {
+            if (input.type === "range") {
+              values[key] = Number(input.value);
+              input.style.setProperty("--fill", `${values[key] * 100}%`);
+            } else if (input.type === "checkbox") {
+              values[key] = input.checked;
+            } else if (input.checked) {
+              values[key] = input.value;
+              // Paper and size only change with a new painting
+              if (painter) $("again").classList.add("nudge");
+            }
+            saveSettings();
+          });
+        }
+
+        $("reset").addEventListener("click", () => {
+          Object.assign(values, DEFAULTS);
+          saveSettings();
+          showSettings();
+        });
+
+        // Paint and paper colors as Monet's simulation shows them
+        Monet.PALETTE.forEach((paint, index) => {
+          for (const parent of [$("palette"), $("blobs")]) {
+            const dot = document.createElement("span");
+            dot.style.background = Monet.getPaintColor(index);
+            dot.title = paint.name;
+            parent.append(dot);
+          }
+        });
+        for (const swatch of document.querySelectorAll("[data-paper]")) swatch.style.background = Monet.getPaperColor(swatch.dataset.paper);
+        showSettings();
+
+        // ---------------- Pictures ----------------
+
+        function showNote(text) {
+          const note = $("note");
+          note.textContent = text;
+          note.hidden = false;
+          clearTimeout(showNote.timer);
+          showNote.timer = setTimeout(() => (note.hidden = true), 3500);
+        }
+
+        function openFile(file) {
+          if (!file || !file.type.startsWith("image/")) {
+            showNote("that isn't a picture");
+            return;
+          }
+          openPicture(URL.createObjectURL(file), file.name.replace(/\.[^.]+$/, ""));
+        }
+
+        function openPicture(url, name, crossOrigin = false) {
+          const image = new Image();
+          if (crossOrigin) image.crossOrigin = "anonymous";
+          image.onload = () => {
+            if (picture && picture.url.startsWith("blob:")) URL.revokeObjectURL(picture.url);
+            picture = { image, name, url };
+            photo.src = url;
+            startPainting();
+          };
+          image.onerror = () => showNote(crossOrigin ? "that picture can't be opened here, save it and drop the file" : "that picture can't be opened");
+          image.src = url;
+        }
+
+        function startPainting() {
+          // A new canvas with the picture's proportions, and Monet starts painting
+          if (!picture) return;
+          // A video of a finished painting is kept even when the next one starts before it ended
+          stopRecording(painter !== null && painter.finished);
+          const aspect = picture.image.naturalWidth / picture.image.naturalHeight;
+          const area = SIZES[values.size] || SIZES.medium;
+          const width = Math.min(Math.max(Math.round(Math.sqrt(area * aspect)), 64), 4096);
+          const height = Math.min(Math.max(Math.round(width / aspect), 64), 4096);
+          let reference;
+          try {
+            reference = Monet.loadReference(picture.image, width, height);
+          } catch (error) {
+            showNote("that picture can't be read, save it and drop the file");
+            return;
+          }
+          try {
+            canvas.start(width, height, Monet.getPaperReflectance(values.paper));
+          } catch (error) {
+            painter = null;
+            showNote(values.size === "small" ? error.message : `${error.message}, try a smaller size`);
+            return;
+          }
+          painter = new Monet.AutoPainter(canvas, reference, style, (share, pan) => splats.play(share, pan), Math.floor(Math.random() * 2 ** 32));
+          startedAt = performance.now();
+          finishedAt = 0;
+
+          $("drop").hidden = true;
+          frame.hidden = false;
+          $("status").hidden = false;
+          for (const id of ["pause", "again", "peek", "save-image"]) $(id).disabled = false;
+          $("pause").textContent = "pause";
+          $("again").classList.remove("nudge");
+          layout();
+          if (values.video) startRecording();
+        }
+
+        function layout() {
+          // The painting as large as fits above the status line, never drawn with more pixels than it has.
+          // On phones the stage is only as tall as the painting needs
+          const aspect = canvas.width && canvas.height ? canvas.width / canvas.height : 4 / 3;
+          const status = $("status");
+          const statusHeight = status.hidden ? 0 : status.offsetHeight + parseFloat(getComputedStyle(status).marginTop);
+          const narrow = window.matchMedia("(max-width: 899px)").matches;
+          easel.style.height = narrow && canvas.width ? `${Math.min(window.innerHeight * 0.62, easel.clientWidth / aspect) + statusHeight}px` : "";
+          const width = Math.max(Math.min(easel.clientWidth, (easel.clientHeight - statusHeight) * aspect), 1);
+          const height = width / aspect;
+          frame.style.width = `${width}px`;
+          frame.style.height = `${height}px`;
+          const scale = Math.min(window.devicePixelRatio || 1, canvas.width ? canvas.width / width : 1);
+          element.width = Math.max(Math.round(width * scale), 1);
+          element.height = Math.max(Math.round(height * scale), 1);
+          needsDraw = true;
+        }
+        new ResizeObserver(layout).observe(easel);
+
+        // Choosing, dropping or pasting a picture
+        const fileInput = $("file");
+        for (const id of ["choose", "drop-choose"]) $(id).addEventListener("click", () => fileInput.click());
+        fileInput.addEventListener("change", () => {
+          openFile(fileInput.files[0]);
+          fileInput.value = "";
+        });
+        $("example").addEventListener("click", () => openPicture("images/evil_egg.png", "evil egg"));
+        $("drop").addEventListener("click", (event) => {
+          if (event.target === $("drop")) fileInput.click();
+        });
+
+        window.addEventListener("dragover", (event) => {
+          event.preventDefault();
+          stage.classList.add("dragging");
+        });
+        window.addEventListener("dragleave", (event) => {
+          if (!event.relatedTarget) stage.classList.remove("dragging");
+        });
+        window.addEventListener("drop", (event) => {
+          event.preventDefault();
+          stage.classList.remove("dragging");
+          splats.unlock();
+          const file = event.dataTransfer.files[0];
+          const link = event.dataTransfer.getData("text/uri-list").split("\n")[0].trim();
+          if (file) openFile(file);
+          else if (link) openPicture(link, "picture", true);
+        });
+        window.addEventListener("paste", (event) => {
+          const item = [...event.clipboardData.items].find((item) => item.type.startsWith("image/"));
+          if (item) openFile(item.getAsFile());
+        });
+        // Sound may only start after the visitor did something
+        for (const type of ["pointerdown", "touchend", "click", "keydown"]) window.addEventListener(type, () => splats.unlock(), true);
+
+        // ---------------- Buttons ----------------
+
+        $("pause").addEventListener("click", () => {
+          if (!painter || painter.finished) return;
+          painter.paused = !painter.paused;
+          $("pause").textContent = painter.paused ? "go on" : "pause";
+        });
+        $("again").addEventListener("click", startPainting);
+
+        // Holding the button shows the original picture over the painting
+        const peek = $("peek");
+        const showPhoto = (show) => (photo.hidden = !show);
+        peek.addEventListener("pointerdown", (event) => {
+          peek.setPointerCapture(event.pointerId);
+          showPhoto(true);
+        });
+        for (const type of ["pointerup", "pointercancel", "lostpointercapture"]) peek.addEventListener(type, () => showPhoto(false));
+        peek.addEventListener("keydown", (event) => {
+          if (event.key === " " || event.key === "Enter") showPhoto(true);
+        });
+        peek.addEventListener("keyup", () => showPhoto(false));
+        peek.addEventListener("blur", () => showPhoto(false));
+
+        function download(blob, filename) {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          document.body.append(link);
+          link.click();
+          link.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 10000);
+        }
+
+        $("save-image").addEventListener("click", async () => {
+          if (!picture) return;
+          download(await canvas.toBlob(), `monet - ${picture.name}.png`);
+        });
+        $("save-video").addEventListener("click", () => {
+          if (!videoBlob) return;
+          download(videoBlob, `monet - ${videoBlob.name}.${videoBlob.type.includes("mp4") ? "mp4" : "webm"}`);
+        });
+
+        // ---------------- Video ----------------
+
+        function startRecording() {
+          // Records the painting as it appears on screen, with the splats when they are on
+          if (!window.MediaRecorder || !element.captureStream) {
+            showNote("this browser can't record videos");
+            return;
+          }
+          const stream = element.captureStream(30);
+          if (values.sound) {
+            splats.unlock();
+            const audio = splats.getStream();
+            if (audio) audio.getAudioTracks().forEach((track) => stream.addTrack(track));
+          }
+          const type = VIDEO_TYPES.find((candidate) => MediaRecorder.isTypeSupported(candidate));
+          const current = new MediaRecorder(stream, { ...(type ? { mimeType: type } : {}), videoBitsPerSecond: 10000000 });
+          const chunks = [], name = picture.name;
+          current.ondataavailable = (event) => event.data.size && chunks.push(event.data);
+          current.onstop = () => {
+            if (!current.keep) return;
+            videoBlob = new Blob(chunks, { type: current.mimeType || "video/webm" });
+            videoBlob.name = name;
+            $("save-video").hidden = false;
+          };
+          current.start(1000);
+          recorder = current;
+          videoBlob = null;
+          $("save-video").hidden = true;
+        }
+
+        function stopRecording(keep) {
+          if (!recorder) return;
+          recorder.keep = keep;
+          if (recorder.state !== "inactive") recorder.stop();
+          recorder = null;
+        }
+
+        // ---------------- Loop ----------------
+
+        let lastStatus = "";
+        function showStatus() {
+          if (!painter) return;
+          let text, progress = painter.getOverallProgress();
+          if (painter.finished) {
+            const seconds = Math.round((finishedAt - startedAt) / 1000);
+            text = `finished · ${painter.strokes.toLocaleString("en")} strokes · ${seconds} s`;
+          } else {
+            text = painter.stage + (painter.paused ? " · paused" : "");
+          }
+          const status = `${text}|${Math.floor(progress * 100)}`;
+          if (status === lastStatus) return;
+          lastStatus = status;
+          $("stage-name").textContent = text;
+          $("bar-fill").style.width = `${progress * 100}%`;
+          $("percent").textContent = `${Math.floor(progress * 100)}%`;
+        }
+
+        function finished() {
+          // Done: the finished painting stays in the video for a moment before it ends
+          finishedAt = performance.now();
+          $("pause").disabled = true;
+          const finishing = recorder;
+          if (finishing) setTimeout(() => recorder === finishing && stopRecording(true), 2500);
+        }
+
+        let last = performance.now();
+        function frameStep(now) {
+          const frameTime = Math.min((now - last) / 1000, 0.1);
+          last = now;
+          if (canvas.lost) {
+            showNote("the graphics card needed a break, reload the page");
+          } else {
+            if (painter && !painter.finished) {
+              painter.step(0.01, frameTime);
+              if (painter.finished) finished();
+            }
+            // While recording the canvas is drawn every frame, so the video keeps running
+            if (painter && (canvas.version !== shownVersion || needsDraw || recorder)) {
+              canvas.draw();
+              shownVersion = canvas.version;
+              needsDraw = false;
+            }
+            showStatus();
+          }
+          requestAnimationFrame(frameStep);
+        }
+        requestAnimationFrame(frameStep);
+
+        // The mixes of the palette take a moment to work out, better before the first picture arrives
+        setTimeout(() => Monet.getMixes(), 100);
+      })();
+    </script>
+  </body>
+</html>
